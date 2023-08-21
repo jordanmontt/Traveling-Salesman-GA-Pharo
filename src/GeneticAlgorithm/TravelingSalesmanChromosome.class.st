@@ -57,6 +57,7 @@ TravelingSalesmanChromosome >> calculateDistance [
 
 { #category : #defaults }
 TravelingSalesmanChromosome >> calculateFitness [
+	"58 is the maximum distance. We add 2 for not having negative nunmbers"
 
 	^ 60 - self distance
 ]

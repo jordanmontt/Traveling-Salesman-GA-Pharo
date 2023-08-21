@@ -203,6 +203,12 @@ GeneticAlgorithm >> mutationIntegerProbability [
 	^ probability
 ]
 
+{ #category : #accessing }
+GeneticAlgorithm >> population [
+
+	^ population
+]
+
 { #category : #defaults }
 GeneticAlgorithm >> reducePopulation [
 

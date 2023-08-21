@@ -14,11 +14,13 @@ GAPresenter >> connectPresenters [
 
 	goButton action: [
 		| individual |
-		individual := geneticAlgorithm iterate.
-		roassal generation: geneticAlgorithm generations.
-		roassal individual: individual 
-		"text := individual chromosomeString , String cr , 'fitness: ' , individual fitness asString ."
-		"roassal text: text" ]
+		geneticAlgorithm iterate.
+		individual := geneticAlgorithm population atRandom.
+		roassal
+			generation: geneticAlgorithm generations;
+			hasConverged: geneticAlgorithm doesItConverge;
+			individual: individual;
+			refresh ]
 ]
 
 { #category : #layout }
@@ -46,4 +48,12 @@ GAPresenter >> initializePresenters [
 		            label: 'Next generation';
 		            iconName: #smallDoIt;
 		            yourself
+]
+
+{ #category : #initialization }
+GAPresenter >> initializeWindow: aWindowPresenter [
+
+	aWindowPresenter
+		title: 'Traveling Salesman Genetic Algoritm';
+		initialExtent: 600 @ 500
 ]

@@ -3,7 +3,8 @@ Class {
 	#superclass : #SpRoassalPresenter,
 	#instVars : [
 		'individual',
-		'generation'
+		'generation',
+		'hasConverged'
 	],
 	#category : #GeneticAlgorithm
 }
@@ -12,10 +13,7 @@ Class {
 GARoassalPresenter >> addLegend: canvas [
 
 	| label |
-	label := RSMultilineLabelBuilder new shapeFor:
-		         'Generation: ' , generation asString , String cr , 'Fitness: '
-		         , individual fitness asString , String cr , 'Distance: '
-		         , individual distance asString.
+	label := RSMultilineLabelBuilder new shapeFor: self legengText.
 	label isFixed: true.
 	RSHorizontalLineLayout on: { label }.
 	canvas addShape: label
@@ -48,10 +46,15 @@ GARoassalPresenter >> generation: anInteger [
 ]
 
 { #category : #'as yet unclassified' }
+GARoassalPresenter >> hasConverged: aBoolean [
+
+	hasConverged := aBoolean
+]
+
+{ #category : #'as yet unclassified' }
 GARoassalPresenter >> individual: anIndividual [
 
-	individual := anIndividual.
-	self refresh
+	individual := anIndividual
 ]
 
 { #category : #'as yet unclassified' }
@@ -59,6 +62,14 @@ GARoassalPresenter >> initialize [
 
 	super initialize.
 	self script: [ :canvas | self renderIn: canvas ]
+]
+
+{ #category : #'as yet unclassified' }
+GARoassalPresenter >> legengText [
+
+	^ 'Generation: ' , generation asString , String cr , 'Fitness: '
+	  , individual fitness asString , String cr , 'Distance: ' , individual distance asString
+	  , String cr , ' Has converged: ' , hasConverged asString
 ]
 
 { #category : #'as yet unclassified' }

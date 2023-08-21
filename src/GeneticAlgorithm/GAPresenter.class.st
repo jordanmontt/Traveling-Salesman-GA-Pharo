@@ -27,7 +27,7 @@ GAPresenter >> connectPresenters [
 GAPresenter >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
-		  add: (SpBoxLayout newLeftToRight add: goButton expand: false) expand: false;
+		  add: (SpBoxLayout newLeftToRight add: goButton) expand: false;
 		  add: roassal;
 		  yourself
 ]

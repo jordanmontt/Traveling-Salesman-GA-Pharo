@@ -33,8 +33,16 @@ GARoassalPresenter >> createEdges: nodes [
 { #category : #roassal }
 GARoassalPresenter >> createNodes [
 
-	| nodes |
-	nodes := RSComposite boxesForModels: individual chromosome allButLast.
+	| box boxes label nodes models |
+	models := individual chromosome allButLast.
+	boxes := (1 to: models size) collect: [ :i |
+	box := RSBox new.
+	box color: Color white.
+	box border: (RSBorder new joinMiter; color: Color black) ].
+	label := RSLabel new.
+	label color: Color black.
+	nodes := RSComposite models: models box: box label: label.
+	
 	nodes first children first color: Color red.
 	^ nodes
 ]

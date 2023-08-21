@@ -33,6 +33,15 @@ TravelingSalesmanChromosomeTest >> testCalculateDistance [
 ]
 
 { #category : #tests }
+TravelingSalesmanChromosomeTest >> testCalculateDistanceMax [
+
+	| travelingSalesmanChromosome expectedDistance |
+	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: 'ACBHJDFGIEA'.
+	expectedDistance := self calculateDistance: travelingSalesmanChromosome.
+	self assert: travelingSalesmanChromosome calculateDistance equals: expectedDistance
+]
+
+{ #category : #tests }
 TravelingSalesmanChromosomeTest >> testCalculateDistanceMin [
 
 	| travelingSalesmanChromosome expectedDistance |

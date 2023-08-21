@@ -19,9 +19,12 @@ GeneticAlgorithmTest >> setUp [
 ]
 
 { #category : #tests }
-GeneticAlgorithmTest >> testCreateLife [
+GeneticAlgorithmTest >> testEvolve [
 
-	geneticAlgorithm createLife
+	| solution |
+	solution := geneticAlgorithm evolve.
+	self assert: 60 - solution fitness equals: 20.
+	self assert: geneticAlgorithm generations < 50
 ]
 
 { #category : #tests }
@@ -29,6 +32,6 @@ GeneticAlgorithmTest >> testGeneratePopulation [
 
 	| population |
 	population := geneticAlgorithm generatePopulation.
-	self assert: population size equals: geneticAlgorithm populationSize.
-	population do: [ :individual | self assert: individual chromosome isNotNil ]
+	self assert: population size equals: geneticAlgorithm initialPopulationSize.
+	population do: [ :individual | self assert: individual class equals: TravelingSalesmanChromosome ]
 ]

@@ -2,10 +2,10 @@ Class {
 	#name : #TravelingSalesmanChromosome,
 	#superclass : #Chromosome,
 	#instVars : [
-		'chromosomeSize',
 		'chromosome',
-		'distances',
-		'fitnessValue'
+		'fitnessValue',
+		'distance',
+		'distancesMatrix'
 	],
 	#category : #GeneticAlgorithm
 }
@@ -45,14 +45,20 @@ TravelingSalesmanChromosome class >> numberOfCities [
 	^ 10
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #defaults }
+TravelingSalesmanChromosome >> calculateDistance [
+
+	distance := 0.
+	1 to: chromosome size - 1 do: [ :i |
+		distance := distance
+			+ (self getDistanceOf: (chromosome at: i) and: (chromosome at: i + 1)) ].
+	^ distance
+]
+
+{ #category : #defaults }
 TravelingSalesmanChromosome >> calculateFitness [
 
-	| fit |
-	fit := 0.
-	1 to: chromosome size - 1 do: [ :i |
-	fit := fit + (self getDistance: (chromosome at: i) with: (chromosome at: i + 1)) ].
-	^ 60 - fit
+	^ 60 - self distance
 ]
 
 { #category : #accessing }
@@ -66,13 +72,13 @@ TravelingSalesmanChromosome >> chromosome: aCollection [
 	chromosome := aCollection asOrderedCollection
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 TravelingSalesmanChromosome >> chromosomeString [
 
 	^ String streamContents: [ :stream | chromosome do: [ :e | stream nextPut: e ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #api }
 TravelingSalesmanChromosome >> cross: anotherChromosome [
 
 	| random l1 l2 inferiorLimit superiorLimit anotherChromosomeCopy chromosomeCopy initialCity child |
@@ -104,30 +110,36 @@ TravelingSalesmanChromosome >> cross: anotherChromosome [
 ]
 
 { #category : #accessing }
-TravelingSalesmanChromosome >> distances [
-	^ distances
+TravelingSalesmanChromosome >> distance [
+
+	^ distance ifNil: [ distance := self calculateDistance ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+TravelingSalesmanChromosome >> distancesMatrix [
+	^ distancesMatrix
+]
+
+{ #category : #accessing }
 TravelingSalesmanChromosome >> fitness [
 
 	^ fitnessValue ifNil: [ fitnessValue := self calculateFitness ]
 ]
 
-{ #category : #'as yet unclassified' }
-TravelingSalesmanChromosome >> getDistance: a with: b [
+{ #category : #defaults }
+TravelingSalesmanChromosome >> getDistanceOf: a and: b [
 
 	| startingValue |
 	"Collections  indeces start in 1"
 	startingValue := $A asciiValue - 1.
-	^ (distances at: a asciiValue - startingValue) at: b asciiValue - startingValue
+	^ (distancesMatrix at: a asciiValue - startingValue) at: b asciiValue - startingValue
 ]
 
 { #category : #initialization }
 TravelingSalesmanChromosome >> initialize [
 
 	super initialize.
-	distances := {
+	distancesMatrix := {
 		             { 0. 5. 9. 1. 8. 5. 1. 4. 4. 2 }.
 		             { 5. 0. 8. 6. 7. 4. 2. 6. 5. 3 }.
 		             { 9. 8. 0. 4. 2. 6. 3. 5. 2. 1 }.
@@ -140,7 +152,7 @@ TravelingSalesmanChromosome >> initialize [
 		             { 2. 3. 1. 4. 2. 3. 4. 5. 3. 0 } }
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #api }
 TravelingSalesmanChromosome >> mutate [
 	"Swap chromosome at a random position"
 
@@ -150,6 +162,13 @@ TravelingSalesmanChromosome >> mutate [
 	temp := chromosome at: positionToMutate.
 	chromosome at: positionToMutate put: (chromosome at: positionToMutate + 1).
 	chromosome at: positionToMutate + 1 put: temp
+]
+
+{ #category : #printing }
+TravelingSalesmanChromosome >> printOn: aStream [
+
+	aStream << self chromosomeString << ' fitness: ' << self fitness asString
+	<< ' distance: ' << self distance asString
 ]
 
 { #category : #removing }

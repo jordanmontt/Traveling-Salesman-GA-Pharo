@@ -8,6 +8,50 @@ Class {
 }
 
 { #category : #tests }
+TravelingSalesmanChromosomeTest >> calculateDistance: travelingSalesmanChromosome [
+
+	| distance startingValue chromosomeString |
+	chromosomeString := travelingSalesmanChromosome chromosomeString.
+	distance := 0.
+	startingValue := $A asciiValue - 1.
+	1 to: TravelingSalesmanChromosome chromosomeSize - 1 do: [ :i |
+		| a b |
+		a := (chromosomeString at: i) asciiValue - startingValue.
+		b := (chromosomeString at: i + 1) asciiValue - startingValue.
+		distance := distance
+			+ ((travelingSalesmanChromosome distancesMatrix at: a) at: b) ].
+	^ distance
+]
+
+{ #category : #tests }
+TravelingSalesmanChromosomeTest >> testCalculateDistance [
+
+	| travelingSalesmanChromosome expectedDistance |
+	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: 'ABCDEFGHIJA'.
+	expectedDistance := self calculateDistance: travelingSalesmanChromosome.
+	self assert: travelingSalesmanChromosome calculateDistance equals: expectedDistance
+]
+
+{ #category : #tests }
+TravelingSalesmanChromosomeTest >> testCalculateDistanceMin [
+
+	| travelingSalesmanChromosome expectedDistance |
+	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: 'ADEHFICJBGA'.
+	expectedDistance := self calculateDistance: travelingSalesmanChromosome.
+	self assert: travelingSalesmanChromosome calculateDistance equals: expectedDistance
+]
+
+{ #category : #tests }
+TravelingSalesmanChromosomeTest >> testCalculateFitness [
+
+	| travelingSalesmanChromosome distance chromosomeString |
+	chromosomeString := 'ABCDEFGHIJA'.
+	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: chromosomeString.
+	distance := self calculateDistance: travelingSalesmanChromosome.
+	self assert: travelingSalesmanChromosome calculateFitness equals: 60 - distance
+]
+
+{ #category : #tests }
 TravelingSalesmanChromosomeTest >> testCross [
 
 	| chromosomeOne chromosomeTwo child |
@@ -15,35 +59,11 @@ TravelingSalesmanChromosomeTest >> testCross [
 	chromosomeTwo := TravelingSalesmanChromosome generateRandomTraveler.
 	child := chromosomeOne cross: chromosomeTwo.
 
-	"It can not be exactly the same as any of the other chromosomes"
-	"self denyCollection: child chromosome equals: chromosomeOne chromosome.
-	self denyCollection: child chromosome equals: chromosomeTwo chromosome."
-
 	"It must start and end in the initial city"
 	self assert: child chromosomeString first equals: $A.
 	self assert: child chromosomeString last equals: $A.
 	"It must have the all the other cities"
 	self assertCollection: (child chromosomeString copyFrom: 2 to: child chromosomeString size - 1) hasSameElements: 'BCDEFGHIJ'
-]
-
-{ #category : #tests }
-TravelingSalesmanChromosomeTest >> testFitness [
-
-	| travelingSalesmanChromosome expectedFitness startingValue chromosomeString |
-	chromosomeString := 'ABCDEFGHIJA'.
-	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: chromosomeString.
-
-	expectedFitness := 0.
-	startingValue := $A asciiValue - 1.
-	1 to: TravelingSalesmanChromosome chromosomeSize - 1 do: [ :i |
-		| a b |
-		a := (chromosomeString at: i) asciiValue - startingValue.
-		b := (chromosomeString at: i + 1) asciiValue - startingValue.
-		expectedFitness := expectedFitness
-			+ ((travelingSalesmanChromosome distances at: a) at: b) ].
-	expectedFitness := 60 - expectedFitness.
-
-	self assert: travelingSalesmanChromosome fitness equals: (60 - 38)
 ]
 
 { #category : #tests }

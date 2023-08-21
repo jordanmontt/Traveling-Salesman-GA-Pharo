@@ -9,7 +9,7 @@ Class {
 	#category : #GeneticAlgorithm
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #roassal }
 GARoassalPresenter >> addLegend: canvas [
 
 	| label |
@@ -19,7 +19,7 @@ GARoassalPresenter >> addLegend: canvas [
 	canvas addShape: label
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #roassal }
 GARoassalPresenter >> createEdges: nodes [
 
 	| edges |
@@ -30,7 +30,7 @@ GARoassalPresenter >> createEdges: nodes [
 	^ edges
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #roassal }
 GARoassalPresenter >> createNodes [
 
 	| nodes |
@@ -39,32 +39,32 @@ GARoassalPresenter >> createNodes [
 	^ nodes
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GARoassalPresenter >> generation: anInteger [
 
 	generation := anInteger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GARoassalPresenter >> hasConverged: aBoolean [
 
 	hasConverged := aBoolean
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GARoassalPresenter >> individual: anIndividual [
 
 	individual := anIndividual
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GARoassalPresenter >> initialize [
 
 	super initialize.
 	self script: [ :canvas | self renderIn: canvas ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GARoassalPresenter >> legengText [
 
 	^ 'Generation: ' , generation asString , String cr , 'Fitness: '
@@ -72,7 +72,7 @@ GARoassalPresenter >> legengText [
 	  , String cr , ' Has converged: ' , hasConverged asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #roassal }
 GARoassalPresenter >> makeLayout: canvas [
 
 	| forceBasedLayout |
@@ -98,7 +98,7 @@ GARoassalPresenter >> makeLayout: canvas [
 	canvas nodes @ (RSDraggableForceInteraction new layout: forceBasedLayout)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #roassal }
 GARoassalPresenter >> makeLineFrom: a to: b [
 
 	| distance |
@@ -112,7 +112,7 @@ GARoassalPresenter >> makeLineFrom: a to: b [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #roassal }
 GARoassalPresenter >> renderIn: canvas [
 
 	| nodes |

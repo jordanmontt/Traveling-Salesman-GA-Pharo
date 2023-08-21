@@ -23,3 +23,12 @@ GeneticAlgorithmTest >> testCreateLife [
 
 	geneticAlgorithm createLife
 ]
+
+{ #category : #tests }
+GeneticAlgorithmTest >> testGeneratePopulation [
+
+	| population |
+	population := geneticAlgorithm generatePopulation.
+	self assert: population size equals: geneticAlgorithm populationSize.
+	population do: [ :individual | self assert: individual chromosome isNotNil ]
+]

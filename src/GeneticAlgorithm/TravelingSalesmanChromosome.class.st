@@ -25,14 +25,14 @@ TravelingSalesmanChromosome class >> generateRandomIndividual [
 	^ self chromosome: cities
 ]
 
-{ #category : #defaults }
+{ #category : #calculating }
 TravelingSalesmanChromosome >> calculateFitness [
 	"We add 2 to not have 0"
 
 	^ travelingSalesmanProblem maximumDistance + 2 - self totalDistance
 ]
 
-{ #category : #defaults }
+{ #category : #calculating }
 TravelingSalesmanChromosome >> calculateTotalDistance [
 
 	totalDistance := 0.
@@ -97,12 +97,6 @@ TravelingSalesmanChromosome >> cross: anotherChromosome [
 	^ self class chromosome: child
 ]
 
-{ #category : #accessing }
-TravelingSalesmanChromosome >> fitness [
-
-	^ fitnessValue ifNil: [ fitnessValue := self calculateFitness ]
-]
-
 { #category : #initialization }
 TravelingSalesmanChromosome >> initialize [
 
@@ -131,14 +125,14 @@ TravelingSalesmanChromosome >> printOn: aStream [
 	<< ' distance: ' << self totalDistance asString
 ]
 
-{ #category : #removing }
+{ #category : #calculating }
 TravelingSalesmanChromosome >> removeHomeCity: aChromosome [
 	"The home city is always at the start and at the end"
 
 	^ aChromosome copyFrom: 2 to: chromosome size - 1
 ]
 
-{ #category : #accessing }
+{ #category : #api }
 TravelingSalesmanChromosome >> totalDistance [
 
 	^ totalDistance ifNil: [ totalDistance := self calculateTotalDistance ]

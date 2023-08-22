@@ -18,25 +18,25 @@ Chromosome class >> generateRandomIndividual [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #calculating }
 Chromosome >> calculateFitness [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #api }
 Chromosome >> cross: anotherChromosome [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #api }
 Chromosome >> fitness [
 
 	^ fitnessValue ifNil: [ fitnessValue := self calculateFitness ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #api }
 Chromosome >> mutate [
 
 	self subclassResponsibility

@@ -2,12 +2,12 @@ Class {
 	#name : #SimpleGAPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'roassal',
 		'geneticAlgorithm',
 		'evolveButton',
 		'inspectGA',
 		'generatePopulationButton',
-		'resetButton'
+		'resetButton',
+		'roassalPresenter'
 	],
 	#category : #'GeneticAlgorithm-UI'
 }
@@ -24,24 +24,25 @@ SimpleGAPresenter >> connectPresenters [
 
 	evolveButton action: [
 		| individual |
-		
-		geneticAlgorithm population ifNil: [ 
-			
-			self  ].
-		
-		geneticAlgorithm evolveOneGeneration.
-		individual := geneticAlgorithm population atRandom.
-		roassal
-			geneticAlgorithm: geneticAlgorithm;
-			individual: individual;
-			refresh ].
-	inspectGA action: [ geneticAlgorithm inspect ].
-	generatePopulationButton action: [ geneticAlgorithm generatePopulation ].
+		geneticAlgorithm population
+			ifNil: [ SpTextPresenter new text: 'No population'; openModal ]
+			ifNotNil: [
+				geneticAlgorithm evolveOneGeneration.
+				individual := geneticAlgorithm population atRandom.
+				roassalPresenter
+					geneticAlgorithm: geneticAlgorithm;
+					individual: individual;
+					refresh ] ].
+
 	resetButton action: [
 		geneticAlgorithm := SimpleGeneticAlgorithm new.
-		roassal
+		roassalPresenter
 			individual: nil;
-			refresh ]
+			refresh ].
+
+	inspectGA action: [ geneticAlgorithm inspect ].
+
+	generatePopulationButton action: [ geneticAlgorithm generatePopulation ]
 ]
 
 { #category : #layout }
@@ -55,7 +56,7 @@ SimpleGAPresenter >> defaultLayout [
 				   add: resetButton;
 				   yourself)
 		  expand: false;
-		  add: roassal;
+		  add: roassalPresenter;
 		  yourself
 ]
 
@@ -69,7 +70,7 @@ SimpleGAPresenter >> initialize [
 { #category : #initialization }
 SimpleGAPresenter >> initializePresenters [
 
-	roassal := self instantiate: GARoassalPresenter.
+	roassalPresenter := self instantiate: GARoassalPresenter.
 	evolveButton := self newButton
 		                label: 'Evolve one generation';
 		                iconName: #smallDoIt;

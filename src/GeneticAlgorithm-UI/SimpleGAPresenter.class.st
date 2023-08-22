@@ -1,5 +1,5 @@
 Class {
-	#name : #GAPresenter,
+	#name : #SimpleGAPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
 		'roassal',
@@ -9,8 +9,15 @@ Class {
 	#category : #'GeneticAlgorithm-UI'
 }
 
+{ #category : #'instance creation' }
+SimpleGAPresenter class >> open [
+
+	<script>
+	^ self new open
+]
+
 { #category : #initialization }
-GAPresenter >> connectPresenters [
+SimpleGAPresenter >> connectPresenters [
 
 	goButton action: [
 		| individual |
@@ -24,7 +31,7 @@ GAPresenter >> connectPresenters [
 ]
 
 { #category : #layout }
-GAPresenter >> defaultLayout [
+SimpleGAPresenter >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
 		  add: (SpBoxLayout newLeftToRight add: goButton) expand: false;
@@ -33,7 +40,7 @@ GAPresenter >> defaultLayout [
 ]
 
 { #category : #initialization }
-GAPresenter >> initialize [
+SimpleGAPresenter >> initialize [
 
 	super initialize.
 	geneticAlgorithm := SimpleGeneticAlgorithm new.
@@ -41,7 +48,7 @@ GAPresenter >> initialize [
 ]
 
 { #category : #initialization }
-GAPresenter >> initializePresenters [
+SimpleGAPresenter >> initializePresenters [
 
 	roassal := self instantiate: GARoassalPresenter.
 	goButton := self newButton
@@ -51,7 +58,7 @@ GAPresenter >> initializePresenters [
 ]
 
 { #category : #initialization }
-GAPresenter >> initializeWindow: aWindowPresenter [
+SimpleGAPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Traveling Salesman Genetic Algoritm';

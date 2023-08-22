@@ -3,8 +3,8 @@ Class {
 	#superclass : #SpRoassalPresenter,
 	#instVars : [
 		'individual',
-		'generation',
-		'hasConverged'
+		'travelingSalesman',
+		'geneticAlgorithm'
 	],
 	#category : #'GeneticAlgorithm-UI'
 }
@@ -33,30 +33,27 @@ GARoassalPresenter >> createEdges: nodes [
 { #category : #roassal }
 GARoassalPresenter >> createNodes [
 
-	| box boxes label nodes models |
+	| boxes labels models colors |
 	models := individual chromosome allButLast.
+	colors := #('2191FB' '4877CF' '6E5CA3' '944277' 'BA274A' '841C26' '9B8484' 'A7B8B3' 'B2ECE1' '8CDEDC')
+		collect: [ :hex | Color fromHexString: hex ].
 	boxes := (1 to: models size) collect: [ :i |
-	box := RSBox new.
-	box color: Color white.
-	box border: (RSBorder new joinMiter; color: Color black) ].
-	label := RSLabel new.
-	label color: Color black.
-	nodes := RSComposite models: models box: box label: label.
-	
-	nodes first children first color: Color red.
-	^ nodes
+		RSBox new
+			color: Color white;
+			border: (RSBorder new joinMiter; color: (colors at: i));
+			yourself ].
+	boxes first color: (Color fromHexString: '457b9d').
+	labels := (1 to: models size) collect: [ :i |
+		RSLabel new
+			color: Color black;
+			yourself ].
+	^ RSComposite models: models boxes: boxes labels: labels
 ]
 
 { #category : #accessing }
-GARoassalPresenter >> generation: anInteger [
+GARoassalPresenter >> geneticAlgorithm: ga [
 
-	generation := anInteger
-]
-
-{ #category : #accessing }
-GARoassalPresenter >> hasConverged: aBoolean [
-
-	hasConverged := aBoolean
+	geneticAlgorithm := ga
 ]
 
 { #category : #accessing }
@@ -69,15 +66,16 @@ GARoassalPresenter >> individual: anIndividual [
 GARoassalPresenter >> initialize [
 
 	super initialize.
-	self script: [ :canvas | self renderIn: canvas ]
+	self script: [ :canvas | self renderIn: canvas ].
+	travelingSalesman := TravelingSalesmanProblem new
 ]
 
 { #category : #accessing }
 GARoassalPresenter >> legengText [
 
-	^ 'Generation: ' , generation asString , String cr , 'Fitness: '
+	^ 'Generation: ' , geneticAlgorithm generations asString , String cr , 'Fitness: '
 	  , individual fitness asString , String cr , 'Distance: ' , individual totalDistance asString
-	  , String cr , ' Has converged: ' , hasConverged asString
+	  , String cr , ' Has converged: ' , geneticAlgorithm doesItConverge asString
 ]
 
 { #category : #roassal }
@@ -110,7 +108,7 @@ GARoassalPresenter >> makeLayout: canvas [
 GARoassalPresenter >> makeLineFrom: a to: b [
 
 	| distance |
-	distance := individual getDistanceBetween: a model and: b model.
+	distance := travelingSalesman getDistanceBetween: a model and: b model.
 	^ RSArrowedLine new
 		  from: a;
 		  to: b;

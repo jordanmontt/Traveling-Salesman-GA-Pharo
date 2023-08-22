@@ -7,22 +7,23 @@ Class {
 	#instVars : [
 		'crossProbability',
 		'mutationProbability',
-		'convergencePercentage',
-		'initialPopulationSize'
+		'initialPopulationSize',
+		'convergenceRate'
 	],
 	#category : #'GeneticAlgorithm-Core'
 }
 
 { #category : #accessing }
-GeneticAlgorithmConfigurator >> convergencePercentage [
+GeneticAlgorithmConfigurator >> convergenceRate [
 
-	^ convergencePercentage
+	^ convergenceRate
 ]
 
 { #category : #accessing }
-GeneticAlgorithmConfigurator >> convergencePercentage: anObject [
+GeneticAlgorithmConfigurator >> convergenceRate: aFloat [
+	"A number in the range [0.0, 1.0]"
 
-	convergencePercentage := anObject
+	convergenceRate := aFloat
 ]
 
 { #category : #accessing }
@@ -54,7 +55,7 @@ GeneticAlgorithmConfigurator >> initialize [
 
 	crossProbability := 0.7.
 	mutationProbability := 0.001.
-	convergencePercentage := 1.0.
+	convergenceRate := 0.9.
 	initialPopulationSize := 1000
 ]
 

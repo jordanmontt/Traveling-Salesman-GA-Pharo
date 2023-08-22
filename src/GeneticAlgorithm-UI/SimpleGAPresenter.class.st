@@ -3,8 +3,11 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'roassal',
-		'goButton',
-		'geneticAlgorithm'
+		'geneticAlgorithm',
+		'evolveButton',
+		'inspectGA',
+		'generatePopulationButton',
+		'resetButton'
 	],
 	#category : #'GeneticAlgorithm-UI'
 }
@@ -19,14 +22,25 @@ SimpleGAPresenter class >> open [
 { #category : #initialization }
 SimpleGAPresenter >> connectPresenters [
 
-	goButton action: [
+	evolveButton action: [
 		| individual |
-		geneticAlgorithm iterate.
+		
+		geneticAlgorithm population ifNil: [ 
+			
+			self  ].
+		
+		geneticAlgorithm evolveOneGeneration.
 		individual := geneticAlgorithm population atRandom.
 		roassal
-			generation: geneticAlgorithm generations;
-			hasConverged: geneticAlgorithm doesItConverge;
+			geneticAlgorithm: geneticAlgorithm;
 			individual: individual;
+			refresh ].
+	inspectGA action: [ geneticAlgorithm inspect ].
+	generatePopulationButton action: [ geneticAlgorithm generatePopulation ].
+	resetButton action: [
+		geneticAlgorithm := SimpleGeneticAlgorithm new.
+		roassal
+			individual: nil;
 			refresh ]
 ]
 
@@ -34,7 +48,13 @@ SimpleGAPresenter >> connectPresenters [
 SimpleGAPresenter >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
-		  add: (SpBoxLayout newLeftToRight add: goButton) expand: false;
+		  add: (SpBoxLayout newLeftToRight
+				   add: evolveButton;
+				   add: inspectGA;
+				   add: generatePopulationButton;
+				   add: resetButton;
+				   yourself)
+		  expand: false;
 		  add: roassal;
 		  yourself
 ]
@@ -42,19 +62,29 @@ SimpleGAPresenter >> defaultLayout [
 { #category : #initialization }
 SimpleGAPresenter >> initialize [
 
-	super initialize.
 	geneticAlgorithm := SimpleGeneticAlgorithm new.
-	geneticAlgorithm generatePopulation
+	super initialize
 ]
 
 { #category : #initialization }
 SimpleGAPresenter >> initializePresenters [
 
 	roassal := self instantiate: GARoassalPresenter.
-	goButton := self newButton
-		            label: 'Next generation';
-		            iconName: #smallDoIt;
-		            yourself
+	evolveButton := self newButton
+		                label: 'Evolve one generation';
+		                iconName: #smallDoIt;
+		                yourself.
+	inspectGA := self newButton
+		             label: 'Inspect';
+		             iconName: #smallInspectIt;
+		             yourself.
+	generatePopulationButton := self newButton
+		                            label: 'Generate population';
+		                            iconName: #smallDoIt;
+		                            yourself.
+	resetButton := self newButton
+		               label: 'Reset';
+		               yourself
 ]
 
 { #category : #initialization }

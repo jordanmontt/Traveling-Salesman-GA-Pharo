@@ -24,7 +24,8 @@ GeneticAlgorithmTest >> testEvolve [
 
 	| solution |
 	solution := geneticAlgorithm evolve.
-	self assert: 60 - solution fitness equals: 20.
+	self assert: solution fitness equals: 40.
+	self assert: solution totalDistance equals: 20.
 	self assert: geneticAlgorithm generations < 50
 ]
 

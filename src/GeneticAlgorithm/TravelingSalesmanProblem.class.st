@@ -24,7 +24,7 @@ TravelingSalesmanProblem >> distancesMatrix [
 TravelingSalesmanProblem >> getDistanceBetween: cityA and: cityB [
 
 	| startingValue |
-	"Collections  indeces start in 1"
+	"Collections  indeces start at 1"
 	startingValue := $A asciiValue - 1.
 	^ (distancesMatrix at: cityA asciiValue - startingValue) at: cityB asciiValue - startingValue
 ]

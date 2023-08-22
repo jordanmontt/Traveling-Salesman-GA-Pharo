@@ -13,7 +13,7 @@ Class {
 
 { #category : #defaults }
 TravelingSalesmanChromosome >> calculateFitness [
-	"58 is the maximum distance. We add 2 for not having negative nunmbers"
+	"58 is the maximum distance. We add 2 to not have negative nunmbers"
 
 	^ 60 - self totalDistance
 ]
@@ -119,7 +119,7 @@ TravelingSalesmanChromosome >> printOn: aStream [
 
 { #category : #removing }
 TravelingSalesmanChromosome >> removeHomeCity: aChromosome [
-	"The home city is always at the start and the end"
+	"The home city is always at the start and at the end"
 
 	^ aChromosome copyFrom: 2 to: chromosome size - 1
 ]

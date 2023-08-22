@@ -16,7 +16,7 @@ TravelingSalesmanChromosomeTest >> calculateDistance: travelingSalesmanChromosom
 	distance := 0.
 	startingValue := $A asciiValue - 1.
 
-	1 to: TravelingSalesmanChromosome chromosomeSize - 1 do: [ :i |
+	1 to: travelingSalesmanChromosome chromosomeSize - 1 do: [ :i |
 		| a b |
 		a := (chromosomeString at: i) asciiValue - startingValue.
 		b := (chromosomeString at: i + 1) asciiValue - startingValue.
@@ -83,7 +83,7 @@ TravelingSalesmanChromosomeTest >> testGenerateRandomTraveler [
 	travelingSalesmanChromosome := TravelingSalesmanChromosome generateRandomTraveler.
 	chromosomeString := travelingSalesmanChromosome chromosomeString.
 
-	self assert: chromosomeString size equals: TravelingSalesmanChromosome chromosomeSize.
+	self assert: chromosomeString size equals: travelingSalesmanChromosome chromosomeSize.
 
 	"It must start and end in the initial city"
 	self assert: chromosomeString first equals: $A.

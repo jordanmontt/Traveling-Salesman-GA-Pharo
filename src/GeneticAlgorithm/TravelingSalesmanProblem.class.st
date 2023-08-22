@@ -2,10 +2,17 @@ Class {
 	#name : #TravelingSalesmanProblem,
 	#superclass : #Object,
 	#instVars : [
-		'distancesMatrix'
+		'distancesMatrix',
+		'numberOfCities'
 	],
 	#category : #GeneticAlgorithm
 }
+
+{ #category : #'as yet unclassified' }
+TravelingSalesmanProblem class >> numberOfCities [
+
+	^ 10
+]
 
 { #category : #accessing }
 TravelingSalesmanProblem >> distancesMatrix [
@@ -14,19 +21,19 @@ TravelingSalesmanProblem >> distancesMatrix [
 ]
 
 { #category : #api }
-TravelingSalesmanProblem >> getDistanceBetween: a and: b [
+TravelingSalesmanProblem >> getDistanceBetween: cityA and: cityB [
 
 	| startingValue |
 	"Collections  indeces start in 1"
 	startingValue := $A asciiValue - 1.
-	^ (distancesMatrix at: a asciiValue - startingValue) at: b asciiValue - startingValue
+	^ (distancesMatrix at: cityA asciiValue - startingValue) at: cityB asciiValue - startingValue
 ]
 
 { #category : #initialization }
 TravelingSalesmanProblem >> initialize [
 
 	super initialize.
-
+	numberOfCities := self class numberOfCities.
 	distancesMatrix := {
 		                   { 0. 5. 9. 1. 8. 5. 1. 4. 4. 2 }.
 		                   { 5. 0. 8. 6. 7. 4. 2. 6. 5. 3 }.
@@ -38,4 +45,10 @@ TravelingSalesmanProblem >> initialize [
 		                   { 4. 6. 5. 3. 2. 3. 1. 0. 3. 5 }.
 		                   { 4. 5. 2. 3. 4. 2. 4. 3. 0. 3 }.
 		                   { 2. 3. 1. 4. 2. 3. 4. 5. 3. 0 } }
+]
+
+{ #category : #accessing }
+TravelingSalesmanProblem >> numberOfCities [
+
+	^ numberOfCities
 ]

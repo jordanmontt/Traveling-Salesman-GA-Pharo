@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'chromosome',
 		'fitnessValue',
-		'numberOfCities',
 		'chromosomeSize',
 		'totalDistance',
 		'travelingSalesmanProblem'
@@ -21,30 +20,18 @@ TravelingSalesmanChromosome class >> chromosome: anOrderedCollectionOfCharacters
 ]
 
 { #category : #'as yet unclassified' }
-TravelingSalesmanChromosome class >> chromosomeSize [
-
-	^ self numberOfCities + 1
-]
-
-{ #category : #'as yet unclassified' }
 TravelingSalesmanChromosome class >> generateRandomTraveler [
 
 	| city cities |
 	city := $B asciiValue.
 	cities := OrderedCollection new.
-	self numberOfCities - 1 timesRepeat: [
+	TravelingSalesmanProblem numberOfCities - 1 timesRepeat: [
 		cities add: city asCharacter.
 		city := city + 1 ].
 	cities shuffle.
 	cities addFirst: $A.
 	cities add: $A.
 	^ self chromosome: cities
-]
-
-{ #category : #'as yet unclassified' }
-TravelingSalesmanChromosome class >> numberOfCities [
-
-	^ 10
 ]
 
 { #category : #defaults }
@@ -74,6 +61,12 @@ TravelingSalesmanChromosome >> chromosome [
 TravelingSalesmanChromosome >> chromosome: aCollection [
 
 	chromosome := aCollection asOrderedCollection
+]
+
+{ #category : #accessing }
+TravelingSalesmanChromosome >> chromosomeSize [
+
+	^ chromosomeSize
 ]
 
 { #category : #accessing }
@@ -124,8 +117,7 @@ TravelingSalesmanChromosome >> initialize [
 
 	super initialize.
 	travelingSalesmanProblem := TravelingSalesmanProblem new.
-	numberOfCities := self class numberOfCities.
-	chromosomeSize := numberOfCities + 1
+	chromosomeSize := travelingSalesmanProblem numberOfCities + 1
 ]
 
 { #category : #api }

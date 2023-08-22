@@ -1,7 +1,7 @@
 Class {
 	#name : #Chromosome,
 	#superclass : #Object,
-	#category : #GeneticAlgorithm
+	#category : #'GeneticAlgorithm-Core'
 }
 
 { #category : #'as yet unclassified' }

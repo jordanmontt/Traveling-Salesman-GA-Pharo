@@ -7,7 +7,7 @@ Class {
 		'convergencePercentage',
 		'initialPopulationSize'
 	],
-	#category : #GeneticAlgorithm
+	#category : #'GeneticAlgorithm-Core'
 }
 
 { #category : #accessing }

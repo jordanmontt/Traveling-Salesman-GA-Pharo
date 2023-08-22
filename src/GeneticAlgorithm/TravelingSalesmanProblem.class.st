@@ -5,7 +5,7 @@ Class {
 		'distancesMatrix',
 		'numberOfCities'
 	],
-	#category : #GeneticAlgorithm
+	#category : #'GeneticAlgorithm-Traveling-Salesman-Problem'
 }
 
 { #category : #'as yet unclassified' }

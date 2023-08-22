@@ -8,31 +8,8 @@ Class {
 		'totalDistance',
 		'travelingSalesmanProblem'
 	],
-	#category : #GeneticAlgorithm
+	#category : #'GeneticAlgorithm-Traveling-Salesman-Problem'
 }
-
-{ #category : #'as yet unclassified' }
-TravelingSalesmanChromosome class >> chromosome: anOrderedCollectionOfCharacters [
-
-	^ self new
-		  chromosome: anOrderedCollectionOfCharacters;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-TravelingSalesmanChromosome class >> generateRandomTraveler [
-
-	| city cities |
-	city := $B asciiValue.
-	cities := OrderedCollection new.
-	TravelingSalesmanProblem numberOfCities - 1 timesRepeat: [
-		cities add: city asCharacter.
-		city := city + 1 ].
-	cities shuffle.
-	cities addFirst: $A.
-	cities add: $A.
-	^ self chromosome: cities
-]
 
 { #category : #defaults }
 TravelingSalesmanChromosome >> calculateFitness [

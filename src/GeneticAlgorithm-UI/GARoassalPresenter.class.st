@@ -6,7 +6,7 @@ Class {
 		'generation',
 		'hasConverged'
 	],
-	#category : #GeneticAlgorithm
+	#category : #'GeneticAlgorithm-UI'
 }
 
 { #category : #roassal }

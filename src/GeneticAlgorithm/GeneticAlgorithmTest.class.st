@@ -5,7 +5,8 @@ Class {
 	#name : #GeneticAlgorithmTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'geneticAlgorithm'
+		'geneticAlgorithm',
+		'initialPopulationSize'
 	],
 	#category : #'GeneticAlgorithm-Tests'
 }
@@ -32,6 +33,7 @@ GeneticAlgorithmTest >> testGeneratePopulation [
 
 	| population |
 	population := geneticAlgorithm generatePopulation.
-	self assert: population size equals: geneticAlgorithm initialPopulationSize.
-	population do: [ :individual | self assert: individual class equals: TravelingSalesmanChromosome ]
+	self assert: population size equals: geneticAlgorithm configurator initialPopulationSize.
+	population do: [ :individual |
+		self assert: individual class equals: TravelingSalesmanChromosome ]
 ]

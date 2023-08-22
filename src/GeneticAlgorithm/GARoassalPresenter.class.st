@@ -76,7 +76,7 @@ GARoassalPresenter >> initialize [
 GARoassalPresenter >> legengText [
 
 	^ 'Generation: ' , generation asString , String cr , 'Fitness: '
-	  , individual fitness asString , String cr , 'Distance: ' , individual distance asString
+	  , individual fitness asString , String cr , 'Distance: ' , individual totalDistance asString
 	  , String cr , ' Has converged: ' , hasConverged asString
 ]
 
@@ -110,7 +110,7 @@ GARoassalPresenter >> makeLayout: canvas [
 GARoassalPresenter >> makeLineFrom: a to: b [
 
 	| distance |
-	distance := individual getDistanceOf: a model and: b model.
+	distance := individual getDistanceBetween: a model and: b model.
 	^ RSArrowedLine new
 		  from: a;
 		  to: b;

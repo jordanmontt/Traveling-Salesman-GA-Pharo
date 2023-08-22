@@ -4,8 +4,10 @@ Class {
 	#instVars : [
 		'chromosome',
 		'fitnessValue',
-		'distance',
-		'distancesMatrix'
+		'numberOfCities',
+		'chromosomeSize',
+		'totalDistance',
+		'travelingSalesmanProblem'
 	],
 	#category : #GeneticAlgorithm
 }
@@ -21,7 +23,7 @@ TravelingSalesmanChromosome class >> chromosome: anOrderedCollectionOfCharacters
 { #category : #'as yet unclassified' }
 TravelingSalesmanChromosome class >> chromosomeSize [
 
-	^ 11
+	^ self numberOfCities + 1
 ]
 
 { #category : #'as yet unclassified' }
@@ -46,24 +48,25 @@ TravelingSalesmanChromosome class >> numberOfCities [
 ]
 
 { #category : #defaults }
-TravelingSalesmanChromosome >> calculateDistance [
-
-	distance := 0.
-	1 to: chromosome size - 1 do: [ :i |
-		distance := distance
-			+ (self getDistanceOf: (chromosome at: i) and: (chromosome at: i + 1)) ].
-	^ distance
-]
-
-{ #category : #defaults }
 TravelingSalesmanChromosome >> calculateFitness [
 	"58 is the maximum distance. We add 2 for not having negative nunmbers"
 
-	^ 60 - self distance
+	^ 60 - self totalDistance
+]
+
+{ #category : #defaults }
+TravelingSalesmanChromosome >> calculateTotalDistance [
+
+	totalDistance := 0.
+	1 to: chromosome size - 1 do: [ :i |
+		totalDistance := totalDistance
+			+ (travelingSalesmanProblem getDistanceBetween: (chromosome at: i) and: (chromosome at: i + 1)) ].
+	^ totalDistance
 ]
 
 { #category : #accessing }
 TravelingSalesmanChromosome >> chromosome [
+
 	^ chromosome
 ]
 
@@ -92,7 +95,7 @@ TravelingSalesmanChromosome >> cross: anotherChromosome [
 
 	[
 	l1 := random nextInteger: chromosomeCopy size.
-	l2 := random nextInteger: chromosomeCopy size ] doWhileTrue: [ "The +1 is because Pharo's collections start at 1"
+	l2 := random nextInteger: chromosomeCopy size ] doWhileTrue: [
 		l2 = l1 | (l1 + l2 >= (chromosomeCopy size )) ].
 	inferiorLimit := l1 min: l2.
 	superiorLimit := l1 max: l2.
@@ -111,55 +114,28 @@ TravelingSalesmanChromosome >> cross: anotherChromosome [
 ]
 
 { #category : #accessing }
-TravelingSalesmanChromosome >> distance [
-
-	^ distance ifNil: [ distance := self calculateDistance ]
-]
-
-{ #category : #accessing }
-TravelingSalesmanChromosome >> distancesMatrix [
-	^ distancesMatrix
-]
-
-{ #category : #accessing }
 TravelingSalesmanChromosome >> fitness [
 
 	^ fitnessValue ifNil: [ fitnessValue := self calculateFitness ]
-]
-
-{ #category : #defaults }
-TravelingSalesmanChromosome >> getDistanceOf: a and: b [
-
-	| startingValue |
-	"Collections  indeces start in 1"
-	startingValue := $A asciiValue - 1.
-	^ (distancesMatrix at: a asciiValue - startingValue) at: b asciiValue - startingValue
 ]
 
 { #category : #initialization }
 TravelingSalesmanChromosome >> initialize [
 
 	super initialize.
-	distancesMatrix := {
-		             { 0. 5. 9. 1. 8. 5. 1. 4. 4. 2 }.
-		             { 5. 0. 8. 6. 7. 4. 2. 6. 5. 3 }.
-		             { 9. 8. 0. 4. 2. 6. 3. 5. 2. 1 }.
-		             { 1. 6. 4. 0. 3. 5. 5. 3. 3. 4 }.
-		             { 8. 7. 2. 3. 0. 4. 2. 2. 4. 2 }.
-		             { 5. 4. 6. 5. 4. 0. 5. 3. 2. 3 }.
-		             { 1. 2. 3. 5. 2. 5. 0. 1. 4. 4 }.
-		             { 4. 6. 5. 3. 2. 3. 1. 0. 3. 5 }.
-		             { 4. 5. 2. 3. 4. 2. 4. 3. 0. 3 }.
-		             { 2. 3. 1. 4. 2. 3. 4. 5. 3. 0 } }
+	travelingSalesmanProblem := TravelingSalesmanProblem new.
+	numberOfCities := self class numberOfCities.
+	chromosomeSize := numberOfCities + 1
 ]
 
 { #category : #api }
 TravelingSalesmanChromosome >> mutate [
-	"Swap chromosome at a random position"
+	"Swap two chromosome elements at a random position"
 
 	| random positionToMutate temp |
 	random := Random new.
-	positionToMutate := (random nextInteger: self class chromosomeSize - 3) + 1.
+	"To not swap the initial city (the first and the last)"
+	positionToMutate := (random nextInteger: chromosomeSize - 3) + 1.
 	temp := chromosome at: positionToMutate.
 	chromosome at: positionToMutate put: (chromosome at: positionToMutate + 1).
 	chromosome at: positionToMutate + 1 put: temp
@@ -169,7 +145,7 @@ TravelingSalesmanChromosome >> mutate [
 TravelingSalesmanChromosome >> printOn: aStream [
 
 	aStream << self chromosomeString << ' fitness: ' << self fitness asString
-	<< ' distance: ' << self distance asString
+	<< ' distance: ' << self totalDistance asString
 ]
 
 { #category : #removing }
@@ -177,4 +153,10 @@ TravelingSalesmanChromosome >> removeHomeCity: aChromosome [
 	"The home city is always at the start and the end"
 
 	^ aChromosome copyFrom: 2 to: chromosome size - 1
+]
+
+{ #category : #accessing }
+TravelingSalesmanChromosome >> totalDistance [
+
+	^ totalDistance ifNil: [ totalDistance := self calculateTotalDistance ]
 ]

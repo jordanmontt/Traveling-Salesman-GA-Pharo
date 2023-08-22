@@ -2,19 +2,19 @@ Class {
 	#name : #GeneticAlgorithm,
 	#superclass : #Object,
 	#instVars : [
-		'crossProbability',
-		'chromosomeSize',
-		'mutationProbability',
-		'convergencePercentage',
-		'numberOfCities',
-		'distances',
 		'population',
 		'random',
 		'generations',
-		'initialPopulationSize'
+		'configurator'
 	],
 	#category : #GeneticAlgorithm
 }
+
+{ #category : #accessing }
+GeneticAlgorithm >> configurator [
+
+	^ configurator
+]
 
 { #category : #defaults }
 GeneticAlgorithm >> createMapHowManyTimesFitnessAppears [
@@ -32,7 +32,7 @@ GeneticAlgorithm >> createMapHowManyTimesFitnessAppears [
 GeneticAlgorithm >> doesItConverge [
 
 	| elementsThatMustHaveTheSameFitnessValue fitnessFrequency |
-	elementsThatMustHaveTheSameFitnessValue := (population size * convergencePercentage) asInteger.
+	elementsThatMustHaveTheSameFitnessValue := (population size * configurator convergencePercentage) asInteger.
 	fitnessFrequency := self createMapHowManyTimesFitnessAppears.
 	fitnessFrequency valuesDo: [ :timesTheFitnessValueAppears |
 		timesTheFitnessValueAppears >= elementsThatMustHaveTheSameFitnessValue ifTrue: [
@@ -53,7 +53,7 @@ GeneticAlgorithm >> evolve [
 
 	[ doesConverge ] whileFalse: [
 		descendants removeAll.
-		numberOfCrosses := initialPopulationSize * crossProbability / 2.
+		numberOfCrosses := configurator initialPopulationSize * configurator crossProbability / 2.
 		
 		"the indidividuals with a better fitness function will be more likely to be chosen"
 		rouletteWheelSelection := self rouletteWheelSelection.
@@ -90,7 +90,7 @@ GeneticAlgorithm >> evolve [
 { #category : #defaults }
 GeneticAlgorithm >> generatePopulation [
 
-	population := (1 to: initialPopulationSize)
+	population := (1 to: configurator initialPopulationSize)
 		collect: [ :i | TravelingSalesmanChromosome generateRandomTraveler ]
 		as: OrderedCollection.
 	^ population
@@ -112,75 +112,14 @@ GeneticAlgorithm >> hasToMutate [
 	^ randomNumber = 10
 ]
 
-{ #category : #accessing }
-GeneticAlgorithm >> initialPopulationSize [
-
-	^ initialPopulationSize
-]
-
 { #category : #initialization }
 GeneticAlgorithm >> initialize [
 
 	super initialize.
 
 	random := Random new.
-	crossProbability := 0.7.
-	generations := 0.
-	mutationProbability := 0.001.
-	convergencePercentage := 1.0.
-	initialPopulationSize := 1000.
-	numberOfCities := 10.
-	chromosomeSize := numberOfCities + 1.
-	distances := {
-		             { 0. 5. 9. 1. 8. 5. 1. 4. 4. 2 }.
-		             { 5. 0. 8. 6. 7. 4. 2. 6. 5. 3 }.
-		             { 9. 8. 0. 4. 2. 6. 3. 5. 2. 1 }.
-		             { 1. 6. 4. 0. 3. 5. 5. 3. 3. 4 }.
-		             { 8. 7. 2. 3. 0. 4. 2. 2. 4. 2 }.
-		             { 5. 4. 6. 5. 4. 0. 5. 3. 2. 3 }.
-		             { 1. 2. 3. 5. 2. 5. 0. 1. 4. 4 }.
-		             { 4. 6. 5. 3. 2. 3. 1. 0. 3. 5 }.
-		             { 4. 5. 2. 3. 4. 2. 4. 3. 0. 3 }.
-		             { 2. 3. 1. 4. 2. 3. 4. 5. 3. 0 } }
-]
-
-{ #category : #api }
-GeneticAlgorithm >> iterate [
-
-	| descendants rouletteWheelSelection numberOfCrosses father mother descendantOne descendantTwo |
-	descendants := OrderedCollection empty.
-	rouletteWheelSelection := OrderedCollection empty.
-
-	"number of crosses is calculated according to cross probability"
-	numberOfCrosses := initialPopulationSize * crossProbability / 2.
-	rouletteWheelSelection := self rouletteWheelSelection.
-
-	[ numberOfCrosses = 0 ] whileFalse: [
-		"Select the two individuals that will cross"
-		father := rouletteWheelSelection at: (random nextInteger: rouletteWheelSelection size).
-		mother := rouletteWheelSelection at: (random nextInteger: rouletteWheelSelection size).
-
-		"Cross the individuals and obtain their descendants"
-		descendantOne := father cross: mother.
-		descendantTwo := mother cross: father.
-
-		"Mutate the descendants"
-		descendantOne := self mutate: descendantOne.
-		descendantTwo := self mutate: descendantTwo.
-
-		"Insert the descendants into the descenders population"
-		descendants add: descendantOne.
-		descendants add: descendantTwo.
-
-		numberOfCrosses := numberOfCrosses - 1 ].
-
-	"Join old population (population) with the new population (descendants)"
-	population addAll: descendants.
-	population := self reducePopulation.
-	generations := generations + 1.
-
-	"Return the best chromosome FOR THIS ITERATION. Population is already sorted"
-	^ population first
+	configurator := GeneticAlgorithmConfigurator new.
+	generations := 0
 ]
 
 { #category : #defaults }
@@ -195,7 +134,7 @@ GeneticAlgorithm >> mutationIntegerProbability [
 
 	| probability aux |
 	probability := 1.
-	aux := mutationProbability.
+	aux := configurator mutationProbability.
 	[ aux < 1 ] whileTrue: [
 		probability := probability * 10.
 		aux := aux * 10.0 ].
@@ -216,7 +155,7 @@ GeneticAlgorithm >> reducePopulation [
 	reducedPopulation := OrderedCollection empty.
 	"the higher fitness is the best"
 	sortedPopulation := population sorted: [ :o1 :o2 | o2 fitness < o1 fitness ].
-	population := sortedPopulation first: initialPopulationSize.
+	population := sortedPopulation first: configurator initialPopulationSize.
 	^ population
 ]
 

@@ -2,6 +2,8 @@
 I am an implementation of a Simple Genetic algorithm. I use the roulette Wheel Selection (https://en.wikipedia.org/wiki/Fitness_proportionate_selection) as the algorithm for randomly choosing the crossing individuals.
 
 For using me, you need to subclass the class Chromosome and implement the missing methods.
+
+I am implemented to **maximize** the fitness function (look the `reducePopulation` method)
 "
 Class {
 	#name : #SimpleGeneticAlgorithm,

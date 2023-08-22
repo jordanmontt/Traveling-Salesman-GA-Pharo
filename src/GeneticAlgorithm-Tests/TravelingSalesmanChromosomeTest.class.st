@@ -1,10 +1,7 @@
 Class {
 	#name : #TravelingSalesmanChromosomeTest,
 	#superclass : #TestCase,
-	#instVars : [
-		'geneticAlgorithm'
-	],
-	#category : #'GeneticAlgorithm-Tests'
+	#category : #'GeneticAlgorithm-Tests-Tests'
 }
 
 { #category : #tests }

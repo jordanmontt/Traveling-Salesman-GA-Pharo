@@ -5,10 +5,9 @@ Class {
 	#name : #GeneticAlgorithmTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'geneticAlgorithm',
-		'initialPopulationSize'
+		'geneticAlgorithm'
 	],
-	#category : #'GeneticAlgorithm-Tests'
+	#category : #'GeneticAlgorithm-Tests-Tests'
 }
 
 { #category : #running }

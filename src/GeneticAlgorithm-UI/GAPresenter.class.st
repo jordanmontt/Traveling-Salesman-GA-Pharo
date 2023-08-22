@@ -36,7 +36,7 @@ GAPresenter >> defaultLayout [
 GAPresenter >> initialize [
 
 	super initialize.
-	geneticAlgorithm := GeneticAlgorithm new.
+	geneticAlgorithm := SimpleGeneticAlgorithm new.
 	geneticAlgorithm generatePopulation
 ]
 

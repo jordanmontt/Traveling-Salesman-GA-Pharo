@@ -1,3 +1,6 @@
+"
+I am an object that serves to provide the default parameters for the simple genetic algorithm
+"
 Class {
 	#name : #GeneticAlgorithmConfigurator,
 	#superclass : #Object,

@@ -3,7 +3,6 @@ Class {
 	#superclass : #Chromosome,
 	#instVars : [
 		'chromosome',
-		'fitnessValue',
 		'chromosomeSize',
 		'totalDistance',
 		'travelingSalesmanProblem'
@@ -11,11 +10,26 @@ Class {
 	#category : #'GeneticAlgorithm-Traveling-Salesman-Problem'
 }
 
+{ #category : #'as yet unclassified' }
+TravelingSalesmanChromosome class >> generateRandomIndividual [
+
+	| city cities |
+	city := $B asciiValue.
+	cities := OrderedCollection new.
+	TravelingSalesmanProblem numberOfCities - 1 timesRepeat: [
+		cities add: city asCharacter.
+		city := city + 1 ].
+	cities shuffle.
+	cities addFirst: $A.
+	cities add: $A.
+	^ self chromosome: cities
+]
+
 { #category : #defaults }
 TravelingSalesmanChromosome >> calculateFitness [
-	"58 is the maximum distance. We add 2 to not have negative nunmbers"
+	"We add 2 to not have 0"
 
-	^ 60 - self totalDistance
+	^ travelingSalesmanProblem maximumDistance + 2 - self totalDistance
 ]
 
 { #category : #defaults }

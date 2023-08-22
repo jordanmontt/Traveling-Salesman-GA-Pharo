@@ -1,5 +1,10 @@
+"
+I am an implementation of a Simple Genetic algorithm. I use the roulette Wheel Selection (https://en.wikipedia.org/wiki/Fitness_proportionate_selection) as the algorithm for randomly choosing the crossing individuals.
+
+For using me, you need to subclass the class Chromosome and implement the missing methods.
+"
 Class {
-	#name : #GeneticAlgorithm,
+	#name : #SimpleGeneticAlgorithm,
 	#superclass : #Object,
 	#instVars : [
 		'population',
@@ -11,13 +16,13 @@ Class {
 }
 
 { #category : #accessing }
-GeneticAlgorithm >> configurator [
+SimpleGeneticAlgorithm >> configurator [
 
 	^ configurator
 ]
 
 { #category : #defaults }
-GeneticAlgorithm >> createMapHowManyTimesFitnessAppears [
+SimpleGeneticAlgorithm >> createMapHowManyTimesFitnessAppears [
 	"This is the same as doing `(population collect: #fitness) asBag` and then ask for the
 	values, for example with `aBag valuesAndCounts values`. But this implementation is faster."
 
@@ -29,7 +34,7 @@ GeneticAlgorithm >> createMapHowManyTimesFitnessAppears [
 ]
 
 { #category : #defaults }
-GeneticAlgorithm >> doesItConverge [
+SimpleGeneticAlgorithm >> doesItConverge [
 
 	| elementsThatMustHaveTheSameFitnessValue fitnessFrequency |
 	elementsThatMustHaveTheSameFitnessValue := (population size * configurator convergencePercentage) asInteger.
@@ -42,7 +47,7 @@ GeneticAlgorithm >> doesItConverge [
 ]
 
 { #category : #api }
-GeneticAlgorithm >> evolve [
+SimpleGeneticAlgorithm >> evolve [
 
 	| descendants rouletteWheelSelection  doesConverge numberOfCrosses father mother childOne childTwo |
 	population := self generatePopulation.
@@ -88,22 +93,22 @@ GeneticAlgorithm >> evolve [
 ]
 
 { #category : #defaults }
-GeneticAlgorithm >> generatePopulation [
+SimpleGeneticAlgorithm >> generatePopulation [
 
 	population := (1 to: configurator initialPopulationSize)
-		collect: [ :i | TravelingSalesmanChromosome generateRandomTraveler ]
+		collect: [ :i | TravelingSalesmanChromosome generateRandomIndividual ]
 		as: OrderedCollection.
 	^ population
 ]
 
 { #category : #accessing }
-GeneticAlgorithm >> generations [
+SimpleGeneticAlgorithm >> generations [
 
 	^ generations
 ]
 
 { #category : #defaults }
-GeneticAlgorithm >> hasToMutate [
+SimpleGeneticAlgorithm >> hasToMutate [
 
 	| probability randomNumber |
 	probability := self mutationIntegerProbability.
@@ -113,7 +118,7 @@ GeneticAlgorithm >> hasToMutate [
 ]
 
 { #category : #initialization }
-GeneticAlgorithm >> initialize [
+SimpleGeneticAlgorithm >> initialize [
 
 	super initialize.
 
@@ -123,7 +128,7 @@ GeneticAlgorithm >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
-GeneticAlgorithm >> iterate [
+SimpleGeneticAlgorithm >> iterate [
 
 	| descendants rouletteWheelSelection numberOfCrosses father mother descendantOne descendantTwo |
 	descendants := OrderedCollection empty.
@@ -162,14 +167,14 @@ GeneticAlgorithm >> iterate [
 ]
 
 { #category : #defaults }
-GeneticAlgorithm >> mutate: individual [
+SimpleGeneticAlgorithm >> mutate: individual [
 
 	self hasToMutate ifTrue: [ individual mutate ].
 	^ individual
 ]
 
 { #category : #defaults }
-GeneticAlgorithm >> mutationIntegerProbability [
+SimpleGeneticAlgorithm >> mutationIntegerProbability [
 
 	| probability aux |
 	probability := 1.
@@ -182,13 +187,13 @@ GeneticAlgorithm >> mutationIntegerProbability [
 ]
 
 { #category : #accessing }
-GeneticAlgorithm >> population [
+SimpleGeneticAlgorithm >> population [
 
 	^ population
 ]
 
 { #category : #defaults }
-GeneticAlgorithm >> reducePopulation [
+SimpleGeneticAlgorithm >> reducePopulation [
 
 	| reducedPopulation sortedPopulation |
 	reducedPopulation := OrderedCollection empty.
@@ -199,7 +204,7 @@ GeneticAlgorithm >> reducePopulation [
 ]
 
 { #category : #defaults }
-GeneticAlgorithm >> rouletteWheelSelection [
+SimpleGeneticAlgorithm >> rouletteWheelSelection [
 	"https://en.wikipedia.org/wiki/Fitness_proportionate_selection"
 
 	| flatteredPopulation |

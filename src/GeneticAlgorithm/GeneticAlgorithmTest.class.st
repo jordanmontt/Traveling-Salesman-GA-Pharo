@@ -16,7 +16,7 @@ GeneticAlgorithmTest >> setUp [
 
 	super setUp.
 
-	geneticAlgorithm := GeneticAlgorithm new
+	geneticAlgorithm := SimpleGeneticAlgorithm new
 ]
 
 { #category : #tests }

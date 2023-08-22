@@ -65,8 +65,8 @@ TravelingSalesmanChromosomeTest >> testCalculateTotalDistanceMin [
 TravelingSalesmanChromosomeTest >> testCross [
 
 	| chromosomeOne chromosomeTwo child |
-	chromosomeOne := TravelingSalesmanChromosome generateRandomTraveler.
-	chromosomeTwo := TravelingSalesmanChromosome generateRandomTraveler.
+	chromosomeOne := TravelingSalesmanChromosome generateRandomIndividual.
+	chromosomeTwo := TravelingSalesmanChromosome generateRandomIndividual.
 	child := chromosomeOne cross: chromosomeTwo.
 
 	"It must start and end in the initial city"
@@ -80,7 +80,7 @@ TravelingSalesmanChromosomeTest >> testCross [
 TravelingSalesmanChromosomeTest >> testGenerateRandomTraveler [
 
 	| travelingSalesmanChromosome chromosomeString |
-	travelingSalesmanChromosome := TravelingSalesmanChromosome generateRandomTraveler.
+	travelingSalesmanChromosome := TravelingSalesmanChromosome generateRandomIndividual.
 	chromosomeString := travelingSalesmanChromosome chromosomeString.
 
 	self assert: chromosomeString size equals: travelingSalesmanChromosome chromosomeSize.

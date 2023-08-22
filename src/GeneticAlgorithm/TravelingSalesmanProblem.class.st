@@ -1,3 +1,7 @@
+"
+I am a modelization of the traveling salesman problem (https://en.wikipedia.org/wiki/Travelling_salesman_problem).
+I represent the graph as an adjacency matrix.
+"
 Class {
 	#name : #TravelingSalesmanProblem,
 	#superclass : #Object,
@@ -45,6 +49,12 @@ TravelingSalesmanProblem >> initialize [
 		                   { 4. 6. 5. 3. 2. 3. 1. 0. 3. 5 }.
 		                   { 4. 5. 2. 3. 4. 2. 4. 3. 0. 3 }.
 		                   { 2. 3. 1. 4. 2. 3. 4. 5. 3. 0 } }
+]
+
+{ #category : #accessing }
+TravelingSalesmanProblem >> maximumDistance [
+
+	^ 58
 ]
 
 { #category : #accessing }

@@ -48,25 +48,22 @@ TravelingSalesmanChromosomeTest >> testCalculateFitness [
 
 { #category : #tests }
 TravelingSalesmanChromosomeTest >> testCalculateTotalDistance [
-	
-	self assert: chromosome calculateTotalDistance equals: 38
-]
 
-{ #category : #tests }
-TravelingSalesmanChromosomeTest >> testCalculateTotalDistanceMax [
+	self assert: chromosome calculateTotalDistance equals: 38.
 
 	chromosome := TravelingSalesmanChromosome chromosome: 'ACBHJDFGIEA'.
-
 	self
 		assert: chromosome calculateTotalDistance
-		equals: travelingSalesmanProblem maximumDistance
-]
-
-{ #category : #tests }
-TravelingSalesmanChromosomeTest >> testCalculateTotalDistanceMin [
+		equals: travelingSalesmanProblem maximumDistance.
 
 	chromosome := TravelingSalesmanChromosome chromosome: 'ADEHFICJBGA'.
 	self assert: chromosome calculateTotalDistance equals: 20
+]
+
+{ #category : #tests }
+TravelingSalesmanChromosomeTest >> testChromosome [
+
+	self assert: chromosome chromosome class equals: OrderedCollection
 ]
 
 { #category : #tests }
@@ -115,4 +112,42 @@ TravelingSalesmanChromosomeTest >> testGenerateRandomIndividual [
 	self
 		assertCollection: (chromosomeString copyFrom: 2 to: chromosomeString size - 1)
 		hasSameElements: 'BCDEFGHIJ'
+]
+
+{ #category : #tests }
+TravelingSalesmanChromosomeTest >> testMutate [
+
+	| originalChromosomeString difference |
+	originalChromosomeString := chromosome chromosomeString.
+	chromosome mutate.
+	self deny: chromosome chromosomeString equals: originalChromosomeString.
+	"Swap only one city"
+	difference := OrderedCollection empty.
+	originalChromosomeString with: chromosome chromosomeString do: [ :a :b |
+		difference add: (a = b ifTrue: [ 0 ] ifFalse: [ 1 ]) ].
+	self assert: difference sum equals: 2.
+
+	"It must start and end in the initial city"
+	self assert: chromosome chromosomeString first equals: $A.
+	self assert: chromosome chromosomeString last equals: $A.
+	"It must have the all the other cities"
+	self assertCollection: chromosome removeHomeCity hasSameElements: 'BCDEFGHIJ'
+]
+
+{ #category : #tests }
+TravelingSalesmanChromosomeTest >> testRemoveHomeCity [
+
+	| chromosomeCollection |
+	chromosomeCollection := chromosome chromosome.
+
+	self assert: chromosome chromosome first equals: $A.
+	self assert: chromosome chromosome last equals: $A.
+
+	chromosomeCollection := chromosome removeHomeCity.
+
+	self deny: chromosomeCollection first equals: $A.
+	self deny: chromosomeCollection last equals: $A.
+	"Original chromosome didn't change"
+	self assert: chromosome chromosome first equals: $A.
+	self assert: chromosome chromosome last equals: $A
 ]

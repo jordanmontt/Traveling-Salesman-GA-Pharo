@@ -60,22 +60,6 @@ TravelingSalesmanProblemTest >> testDistancesMatrix [
 ]
 
 { #category : #tests }
-TravelingSalesmanProblemTest >> testGetDistanceBetweenAnd [
-
-	self
-		assert: (travelingSalesmanProblem distanceBetween: $A and: $B)
-		equals: ((self distanceMatrix at: 1) at: 2).
-	
-	self
-		assert: (travelingSalesmanProblem distanceBetween: $D and: $E)
-		equals: ((self distanceMatrix at: 4) at: 5).
-		
-	self
-		assert: (travelingSalesmanProblem distanceBetween: $J and: $B)
-		equals: ((self distanceMatrix at: 10) at: 2)
-]
-
-{ #category : #tests }
 TravelingSalesmanProblemTest >> testMaximumDistance [
 
 	self assert: travelingSalesmanProblem maximumDistance equals: 58
@@ -84,5 +68,6 @@ TravelingSalesmanProblemTest >> testMaximumDistance [
 { #category : #tests }
 TravelingSalesmanProblemTest >> testNumberOfCities [
 
-	self assert: travelingSalesmanProblem numberOfCities equals: 10
+	self assert: travelingSalesmanProblem numberOfCities equals: 10.
+	self assert: travelingSalesmanProblem class numberOfCities equals: 10
 ]

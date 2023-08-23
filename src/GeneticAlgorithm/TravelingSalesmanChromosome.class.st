@@ -74,8 +74,8 @@ TravelingSalesmanChromosome >> cross: anotherChromosome [
 	initialCity := chromosome first.
 	chromosomeCopy := chromosome copy.
 	anotherChromosomeCopy := anotherChromosome chromosome copy.
-	chromosomeCopy := self removeHomeCity: chromosomeCopy.
-	anotherChromosomeCopy := self removeHomeCity: anotherChromosomeCopy.
+	chromosomeCopy := chromosomeCopy removeHomeCity.
+	anotherChromosomeCopy := anotherChromosomeCopy removeHomeCity.
 
 	[
 	l1 := random nextInteger: chromosomeCopy size.
@@ -126,10 +126,10 @@ TravelingSalesmanChromosome >> printOn: aStream [
 ]
 
 { #category : #calculating }
-TravelingSalesmanChromosome >> removeHomeCity: aChromosome [
+TravelingSalesmanChromosome >> removeHomeCity [
 	"The home city is always at the start and at the end"
 
-	^ aChromosome copyFrom: 2 to: chromosome size - 1
+	^ chromosome copyFrom: 2 to: chromosome size - 1
 ]
 
 { #category : #api }

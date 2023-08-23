@@ -108,7 +108,7 @@ ChromosomeVisualizerPresenter >> makeLayout: canvas [
 ChromosomeVisualizerPresenter >> makeLineFrom: a to: b [
 
 	| distance |
-	distance := travelingSalesman getDistanceBetween: a model and: b model.
+	distance := travelingSalesman distanceBetween: a model and: b model.
 	^ RSArrowedLine new
 		  from: a;
 		  to: b;

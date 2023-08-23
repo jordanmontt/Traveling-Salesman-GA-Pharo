@@ -38,7 +38,7 @@ TravelingSalesmanChromosome >> calculateTotalDistance [
 	totalDistance := 0.
 	1 to: chromosome size - 1 do: [ :i |
 		totalDistance := totalDistance
-			+ (travelingSalesmanProblem getDistanceBetween: (chromosome at: i) and: (chromosome at: i + 1)) ].
+			+ (travelingSalesmanProblem distanceBetween: (chromosome at: i) and: (chromosome at: i + 1)) ].
 	^ totalDistance
 ]
 

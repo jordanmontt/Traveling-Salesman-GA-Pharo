@@ -18,19 +18,19 @@ TravelingSalesmanProblem class >> numberOfCities [
 	^ 10
 ]
 
-{ #category : #accessing }
-TravelingSalesmanProblem >> distancesMatrix [
-
-	^ distancesMatrix
-]
-
 { #category : #api }
-TravelingSalesmanProblem >> getDistanceBetween: cityA and: cityB [
+TravelingSalesmanProblem >> distanceBetween: cityA and: cityB [
 
 	| startingValue |
 	"Collections  indeces start at 1"
 	startingValue := $A asciiValue - 1.
 	^ (distancesMatrix at: cityA asciiValue - startingValue) at: cityB asciiValue - startingValue
+]
+
+{ #category : #accessing }
+TravelingSalesmanProblem >> distancesMatrix [
+
+	^ distancesMatrix
 ]
 
 { #category : #initialization }

@@ -2,7 +2,8 @@ Class {
 	#name : #TravelingSalesmanChromosomeTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'travelingSalesmanProblem'
+		'travelingSalesmanProblem',
+		'chromosome'
 	],
 	#category : #'GeneticAlgorithm-Tests-Tests'
 }
@@ -29,46 +30,58 @@ TravelingSalesmanChromosomeTest >> setUp [
 
 	super setUp.
 
-	travelingSalesmanProblem := TravelingSalesmanProblem new
+	travelingSalesmanProblem := TravelingSalesmanProblem new.
+	chromosome := TravelingSalesmanChromosome chromosome: 'ABCDEFGHIJA'.
 ]
 
 { #category : #tests }
 TravelingSalesmanChromosomeTest >> testCalculateFitness [
 
-	| travelingSalesmanChromosome distance chromosomeString |
+	| distance chromosomeString |
 	chromosomeString := 'ABCDEFGHIJA'.
-	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: chromosomeString.
+	chromosome := TravelingSalesmanChromosome chromosome: chromosomeString.
 	distance := 38.
 
-	self assert: travelingSalesmanChromosome calculateFitness
+	self assert: chromosome calculateFitness
 		equals: travelingSalesmanProblem maximumDistance + 2 - distance
 ]
 
 { #category : #tests }
 TravelingSalesmanChromosomeTest >> testCalculateTotalDistance [
-
-	| travelingSalesmanChromosome |
-	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: 'ABCDEFGHIJA'.
-	self assert: travelingSalesmanChromosome calculateTotalDistance equals: 38
+	
+	self assert: chromosome calculateTotalDistance equals: 38
 ]
 
 { #category : #tests }
 TravelingSalesmanChromosomeTest >> testCalculateTotalDistanceMax [
 
-	| travelingSalesmanChromosome |
-	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: 'ACBHJDFGIEA'.
+	chromosome := TravelingSalesmanChromosome chromosome: 'ACBHJDFGIEA'.
 
 	self
-		assert: travelingSalesmanChromosome calculateTotalDistance
+		assert: chromosome calculateTotalDistance
 		equals: travelingSalesmanProblem maximumDistance
 ]
 
 { #category : #tests }
 TravelingSalesmanChromosomeTest >> testCalculateTotalDistanceMin [
 
-	| travelingSalesmanChromosome |
-	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: 'ADEHFICJBGA'.
-	self assert: travelingSalesmanChromosome calculateTotalDistance equals: 20
+	chromosome := TravelingSalesmanChromosome chromosome: 'ADEHFICJBGA'.
+	self assert: chromosome calculateTotalDistance equals: 20
+]
+
+{ #category : #tests }
+TravelingSalesmanChromosomeTest >> testChromosomeSize [
+
+	self assert: chromosome chromosomeSize equals: 11
+]
+
+{ #category : #tests }
+TravelingSalesmanChromosomeTest >> testChromosomeString [
+
+	self assert: chromosome chromosomeString class equals: ByteString.
+	self
+		assert: chromosome chromosomeString size
+		equals: chromosome chromosomeSize
 ]
 
 { #category : #tests }
@@ -89,17 +102,17 @@ TravelingSalesmanChromosomeTest >> testCross [
 { #category : #tests }
 TravelingSalesmanChromosomeTest >> testGenerateRandomIndividual [
 
-	| travelingSalesmanChromosome chromosomeString |
-	travelingSalesmanChromosome := TravelingSalesmanChromosome generateRandomIndividual.
-	chromosomeString := travelingSalesmanChromosome chromosomeString.
+	| chromosomeString |
+	chromosome := TravelingSalesmanChromosome generateRandomIndividual.
+	chromosomeString := chromosome chromosomeString.
 
-	self assert: chromosomeString size equals: travelingSalesmanChromosome chromosomeSize.
+	self assert: chromosomeString size equals: chromosome chromosomeSize.
 
 	"It must start and end in the initial city"
 	self assert: chromosomeString first equals: $A.
 	self assert: chromosomeString last equals: $A.
 	"It must have the all the other cities"
-
-	self assertCollection: (chromosomeString copyFrom: 2 to: chromosomeString size - 1)
+	self
+		assertCollection: (chromosomeString copyFrom: 2 to: chromosomeString size - 1)
 		hasSameElements: 'BCDEFGHIJ'
 ]

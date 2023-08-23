@@ -35,6 +35,22 @@ TravelingSalesmanProblemTest >> setUp [
 ]
 
 { #category : #tests }
+TravelingSalesmanProblemTest >> testDistanceBetweenAnd [
+
+	self
+		assert: (travelingSalesmanProblem distanceBetween: $A and: $B)
+		equals: ((self distanceMatrix at: 1) at: 2).
+	
+	self
+		assert: (travelingSalesmanProblem distanceBetween: $D and: $E)
+		equals: ((self distanceMatrix at: 4) at: 5).
+		
+	self
+		assert: (travelingSalesmanProblem distanceBetween: $J and: $B)
+		equals: ((self distanceMatrix at: 10) at: 2)
+]
+
+{ #category : #tests }
 TravelingSalesmanProblemTest >> testDistancesMatrix [
 
 	| distancesMatrix |

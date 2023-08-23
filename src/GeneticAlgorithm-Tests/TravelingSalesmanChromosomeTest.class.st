@@ -1,6 +1,9 @@
 Class {
 	#name : #TravelingSalesmanChromosomeTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'travelingSalesmanProblem'
+	],
 	#category : #'GeneticAlgorithm-Tests-Tests'
 }
 
@@ -21,41 +24,51 @@ TravelingSalesmanChromosomeTest >> calculateDistance: travelingSalesmanChromosom
 	^ distance
 ]
 
+{ #category : #running }
+TravelingSalesmanChromosomeTest >> setUp [
+
+	super setUp.
+
+	travelingSalesmanProblem := TravelingSalesmanProblem new
+]
+
 { #category : #tests }
 TravelingSalesmanChromosomeTest >> testCalculateFitness [
 
 	| travelingSalesmanChromosome distance chromosomeString |
 	chromosomeString := 'ABCDEFGHIJA'.
 	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: chromosomeString.
-	distance := self calculateDistance: travelingSalesmanChromosome.
-	self assert: travelingSalesmanChromosome calculateFitness equals: 60 - distance
+	distance := 38.
+
+	self assert: travelingSalesmanChromosome calculateFitness
+		equals: travelingSalesmanProblem maximumDistance + 2 - distance
 ]
 
 { #category : #tests }
 TravelingSalesmanChromosomeTest >> testCalculateTotalDistance [
 
-	| travelingSalesmanChromosome expectedDistance |
+	| travelingSalesmanChromosome |
 	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: 'ABCDEFGHIJA'.
-	expectedDistance := self calculateDistance: travelingSalesmanChromosome.
-	self assert: travelingSalesmanChromosome calculateTotalDistance equals: expectedDistance
+	self assert: travelingSalesmanChromosome calculateTotalDistance equals: 38
 ]
 
 { #category : #tests }
 TravelingSalesmanChromosomeTest >> testCalculateTotalDistanceMax [
 
-	| travelingSalesmanChromosome expectedDistance |
+	| travelingSalesmanChromosome |
 	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: 'ACBHJDFGIEA'.
-	expectedDistance := self calculateDistance: travelingSalesmanChromosome.
-	self assert: travelingSalesmanChromosome calculateTotalDistance equals: expectedDistance
+
+	self
+		assert: travelingSalesmanChromosome calculateTotalDistance
+		equals: travelingSalesmanProblem maximumDistance
 ]
 
 { #category : #tests }
 TravelingSalesmanChromosomeTest >> testCalculateTotalDistanceMin [
 
-	| travelingSalesmanChromosome expectedDistance |
+	| travelingSalesmanChromosome |
 	travelingSalesmanChromosome := TravelingSalesmanChromosome chromosome: 'ADEHFICJBGA'.
-	expectedDistance := self calculateDistance: travelingSalesmanChromosome.
-	self assert: travelingSalesmanChromosome calculateTotalDistance equals: expectedDistance
+	self assert: travelingSalesmanChromosome calculateTotalDistance equals: 20
 ]
 
 { #category : #tests }
@@ -74,7 +87,7 @@ TravelingSalesmanChromosomeTest >> testCross [
 ]
 
 { #category : #tests }
-TravelingSalesmanChromosomeTest >> testGenerateRandomTraveler [
+TravelingSalesmanChromosomeTest >> testGenerateRandomIndividual [
 
 	| travelingSalesmanChromosome chromosomeString |
 	travelingSalesmanChromosome := TravelingSalesmanChromosome generateRandomIndividual.

@@ -30,6 +30,12 @@ SimpleGeneticAlgorithm >> convergedGeneration [
 	^ convergedGeneration
 ]
 
+{ #category : #accessing }
+SimpleGeneticAlgorithm >> convergedGeneration: anInteger [
+
+	convergedGeneration := anInteger
+]
+
 { #category : #'genetic algorithm' }
 SimpleGeneticAlgorithm >> createMapHowManyTimesFitnessAppears [
 	"This is the same as doing `(population collect: #fitness) asBag` and then ask for the

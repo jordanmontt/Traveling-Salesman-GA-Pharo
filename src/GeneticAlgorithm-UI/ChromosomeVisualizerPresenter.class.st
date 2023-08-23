@@ -1,5 +1,5 @@
 Class {
-	#name : #GARoassalPresenter,
+	#name : #ChromosomeVisualizerPresenter,
 	#superclass : #SpRoassalPresenter,
 	#instVars : [
 		'individual',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #roassal }
-GARoassalPresenter >> addLegend: canvas [
+ChromosomeVisualizerPresenter >> addLegend: canvas [
 
 	| label |
 	label := RSMultilineLabelBuilder new shapeFor: self legengText.
@@ -20,7 +20,7 @@ GARoassalPresenter >> addLegend: canvas [
 ]
 
 { #category : #roassal }
-GARoassalPresenter >> createEdges: nodes [
+ChromosomeVisualizerPresenter >> createEdges: nodes [
 
 	| edges |
 	edges := (1 to: nodes size - 1) collect: [ :i |
@@ -31,7 +31,7 @@ GARoassalPresenter >> createEdges: nodes [
 ]
 
 { #category : #roassal }
-GARoassalPresenter >> createNodes [
+ChromosomeVisualizerPresenter >> createNodes [
 
 	| boxes labels models colors |
 	models := individual chromosome allButLast.
@@ -51,27 +51,28 @@ GARoassalPresenter >> createNodes [
 ]
 
 { #category : #accessing }
-GARoassalPresenter >> geneticAlgorithm: ga [
+ChromosomeVisualizerPresenter >> geneticAlgorithm: ga [
 
 	geneticAlgorithm := ga
 ]
 
 { #category : #accessing }
-GARoassalPresenter >> individual: anIndividual [
+ChromosomeVisualizerPresenter >> individual: anIndividual [
 
 	individual := anIndividual
 ]
 
 { #category : #initialization }
-GARoassalPresenter >> initialize [
+ChromosomeVisualizerPresenter >> initialize [
 
 	super initialize.
+
 	self script: [ :canvas | self renderIn: canvas ].
 	travelingSalesman := TravelingSalesmanProblem new
 ]
 
 { #category : #accessing }
-GARoassalPresenter >> legengText [
+ChromosomeVisualizerPresenter >> legengText [
 
 	^ 'Generation: ' , geneticAlgorithm generations asString , String cr , 'Fitness: '
 	  , individual fitness asString , String cr , 'Distance: ' , individual totalDistance asString
@@ -79,7 +80,7 @@ GARoassalPresenter >> legengText [
 ]
 
 { #category : #roassal }
-GARoassalPresenter >> makeLayout: canvas [
+ChromosomeVisualizerPresenter >> makeLayout: canvas [
 
 	| forceBasedLayout |
 	RSCircleLayout on: canvas nodes.
@@ -94,10 +95,9 @@ GARoassalPresenter >> makeLayout: canvas [
 
 	canvas lines do: [ :e |
 		| mockedLine |
-		mockedLine := (forceBasedLayout newMockLineFor: e) length: (e model * 15).
+		mockedLine := (forceBasedLayout newMockLineFor: e) length: e model * 15.
 		forceBasedLayout edges add: mockedLine ].
 
-	"forceBasedLayout start."
 	canvas newAnimation repeat onStepDo: [ :t |
 		forceBasedLayout step.
 		canvas zoomToFit ].
@@ -105,7 +105,7 @@ GARoassalPresenter >> makeLayout: canvas [
 ]
 
 { #category : #roassal }
-GARoassalPresenter >> makeLineFrom: a to: b [
+ChromosomeVisualizerPresenter >> makeLineFrom: a to: b [
 
 	| distance |
 	distance := travelingSalesman getDistanceBetween: a model and: b model.
@@ -119,7 +119,7 @@ GARoassalPresenter >> makeLineFrom: a to: b [
 ]
 
 { #category : #roassal }
-GARoassalPresenter >> renderIn: canvas [
+ChromosomeVisualizerPresenter >> renderIn: canvas [
 
 	| nodes |
 	individual ifNil: [ ^ self ].

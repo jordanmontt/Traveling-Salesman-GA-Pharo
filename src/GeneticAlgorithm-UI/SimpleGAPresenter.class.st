@@ -4,10 +4,10 @@ Class {
 	#instVars : [
 		'geneticAlgorithm',
 		'evolveButton',
-		'inspectGA',
 		'generatePopulationButton',
 		'resetButton',
-		'roassalPresenter'
+		'chromosomeVisualizerPresenter',
+		'inspectButton'
 	],
 	#category : #'GeneticAlgorithm-UI'
 }
@@ -22,27 +22,10 @@ SimpleGAPresenter class >> open [
 { #category : #initialization }
 SimpleGAPresenter >> connectPresenters [
 
-	evolveButton action: [
-		| individual |
-		geneticAlgorithm population
-			ifNil: [ SpTextPresenter new text: 'No population'; openModal ]
-			ifNotNil: [
-				geneticAlgorithm evolveOneGeneration.
-				individual := geneticAlgorithm population atRandom.
-				roassalPresenter
-					geneticAlgorithm: geneticAlgorithm;
-					individual: individual;
-					refresh ] ].
-
-	resetButton action: [
-		geneticAlgorithm := SimpleGeneticAlgorithm new.
-		roassalPresenter
-			individual: nil;
-			refresh ].
-
-	inspectGA action: [ geneticAlgorithm inspect ].
-
-	generatePopulationButton action: [ geneticAlgorithm generatePopulation ]
+	evolveButton action: [ self evolveAction ].
+	resetButton action: [ self resetAction ].
+	inspectButton action: [ self inspectAction ].
+	generatePopulationButton action: [ self generateRandomPopulationAction ]
 ]
 
 { #category : #layout }
@@ -50,14 +33,41 @@ SimpleGAPresenter >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
 		  add: (SpBoxLayout newLeftToRight
-				   add: evolveButton;
-				   add: inspectGA;
 				   add: generatePopulationButton;
+				   add: evolveButton;
+				   add: inspectButton;
 				   add: resetButton;
 				   yourself)
 		  expand: false;
-		  add: roassalPresenter;
+		  add: chromosomeVisualizerPresenter;
 		  yourself
+]
+
+{ #category : #action }
+SimpleGAPresenter >> evolveAction [
+
+	geneticAlgorithm population ifNil: [
+		self openAlertModal.
+		^ self ].
+
+	geneticAlgorithm evolveOneGeneration.
+	geneticAlgorithm doesItConverge & geneticAlgorithm convergedGeneration isNil ifTrue: [
+		geneticAlgorithm convergedGeneration: geneticAlgorithm generations ].
+
+	chromosomeVisualizerPresenter
+		geneticAlgorithm: geneticAlgorithm;
+		individual: geneticAlgorithm population atRandom;
+		refresh
+]
+
+{ #category : #action }
+SimpleGAPresenter >> generateRandomPopulationAction [
+
+	geneticAlgorithm generatePopulation.
+	chromosomeVisualizerPresenter
+		geneticAlgorithm: geneticAlgorithm;
+		individual: geneticAlgorithm population atRandom;
+		refresh
 ]
 
 { #category : #initialization }
@@ -70,22 +80,22 @@ SimpleGAPresenter >> initialize [
 { #category : #initialization }
 SimpleGAPresenter >> initializePresenters [
 
-	roassalPresenter := self instantiate: GARoassalPresenter.
+	chromosomeVisualizerPresenter := self instantiate: ChromosomeVisualizerPresenter.
 	evolveButton := self newButton
-		                label: 'Evolve one generation';
-		                iconName: #smallDoIt;
-		                yourself.
-	inspectGA := self newButton
-		             label: 'Inspect';
-		             iconName: #smallInspectIt;
-		             yourself.
+		label: 'Evolve one generation';
+		iconName: #smallDoIt;
+		yourself.
+	inspectButton := self newButton
+		label: 'Inspect';
+		iconName: #smallInspectIt;
+		yourself.
 	generatePopulationButton := self newButton
-		                            label: 'Generate population';
-		                            iconName: #smallDoIt;
-		                            yourself.
+		label: 'Generate random population';
+		iconName: #smallNew;
+		yourself.
 	resetButton := self newButton
-		               label: 'Reset';
-		               yourself
+		label: 'Reset';
+		yourself
 ]
 
 { #category : #initialization }
@@ -94,4 +104,30 @@ SimpleGAPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		title: 'Traveling Salesman Genetic Algoritm';
 		initialExtent: 600 @ 500
+]
+
+{ #category : #action }
+SimpleGAPresenter >> inspectAction [
+
+	geneticAlgorithm inspect
+]
+
+{ #category : #action }
+SimpleGAPresenter >> openAlertModal [
+
+	| alertModal |
+	alertModal := SpModalWindowPresenter new.
+	alertModal
+		presenter: 'No population' asPresenter;
+		title: 'Alert';
+		open
+]
+
+{ #category : #action }
+SimpleGAPresenter >> resetAction [
+
+	geneticAlgorithm := SimpleGeneticAlgorithm new.
+	chromosomeVisualizerPresenter
+		individual: nil;
+		refresh
 ]

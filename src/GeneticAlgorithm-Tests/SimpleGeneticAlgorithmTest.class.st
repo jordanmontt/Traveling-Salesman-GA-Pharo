@@ -68,10 +68,14 @@ SimpleGeneticAlgorithmTest >> testRouletteWheelSelection [
 	chromosomes := #( 'ABCDEFJHIJA' 'AIHJEDBFCGA' 'ABFCJGEHIDA' ).
 	population := chromosomes collect: [ :e | TravelingSalesmanChromosome chromosome: e ].
 	geneticAlgorithm population: population.
-	frequencies := geneticAlgorithm rouletteWheelSelection asBag.
-	self assert: geneticAlgorithm rouletteWheelSelection size equals: frequencies size.
+
+	self
+		assert: geneticAlgorithm rouletteWheelSelection size
+		equals: (population sum: [ :individual | individual fitness ]).
+
+	frequencies := geneticAlgorithm rouletteWheelSelection asBag valuesAndCounts.
 	population do: [ :individual |
-		self assert: (frequencies valuesAndCounts at: individual) equals: individual fitness ]
+		self assert: (frequencies at: individual) equals: individual fitness ]
 ]
 
 { #category : #tests }

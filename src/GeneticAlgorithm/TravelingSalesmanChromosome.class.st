@@ -25,6 +25,14 @@ TravelingSalesmanChromosome class >> generateRandomIndividual [
 	^ self chromosome: cities
 ]
 
+{ #category : #comparing }
+TravelingSalesmanChromosome >> = aTravelingSalesmanChromosome [
+
+	aTravelingSalesmanChromosome class = self class ifFalse: [ ^ false ].
+
+	^ self chromosomeString = aTravelingSalesmanChromosome chromosomeString
+]
+
 { #category : #calculating }
 TravelingSalesmanChromosome >> calculateFitness [
 	"We add 2 to not have 0"
@@ -95,6 +103,12 @@ TravelingSalesmanChromosome >> cross: anotherChromosome [
 	child add: initialCity.
 
 	^ self class chromosome: child
+]
+
+{ #category : #comparing }
+TravelingSalesmanChromosome >> hash [
+
+	^ self chromosomeString hash
 ]
 
 { #category : #initialization }

@@ -157,6 +157,13 @@ SimpleGeneticAlgorithm >> population [
 	^ population
 ]
 
+{ #category : #accessing }
+SimpleGeneticAlgorithm >> population: aCollection [
+
+	configurator initialPopulationSize: aCollection size.
+	population := aCollection
+]
+
 { #category : #'genetic algorithm' }
 SimpleGeneticAlgorithm >> reducePopulation [
 

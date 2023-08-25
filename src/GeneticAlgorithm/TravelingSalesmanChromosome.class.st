@@ -10,7 +10,15 @@ Class {
 	#category : #'GeneticAlgorithm-Traveling-Salesman-Problem'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
+TravelingSalesmanChromosome class >> chromosome: anOrderedCollectionOfCharacters [
+
+	^ self new
+		chromosome: anOrderedCollectionOfCharacters;
+		yourself
+]
+
+{ #category : #'instance creation' }
 TravelingSalesmanChromosome class >> generateRandomIndividual [
 
 	| city cities |

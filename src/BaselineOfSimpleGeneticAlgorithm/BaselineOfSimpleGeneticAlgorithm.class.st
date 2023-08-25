@@ -1,7 +1,7 @@
 Class {
 	#name : #BaselineOfSimpleGeneticAlgorithm,
 	#superclass : #BaselineOf,
-	#category : #BaselineOfGeneticAlgorithm
+	#category : #BaselineOfSimpleGeneticAlgorithm
 }
 
 { #category : #baselines }

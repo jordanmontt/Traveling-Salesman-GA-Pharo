@@ -188,9 +188,8 @@ SimpleGeneticAlgorithm >> rouletteWheelSelection [
 { #category : #api }
 SimpleGeneticAlgorithm >> run [
 
-	| rouletteWheelSelection doesConverge |
+	| doesConverge |
 	population := self generatePopulation.
-	rouletteWheelSelection := OrderedCollection empty.
 	generations := 0.
 	doesConverge := false.
 

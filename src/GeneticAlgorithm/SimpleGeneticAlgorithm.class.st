@@ -160,7 +160,6 @@ SimpleGeneticAlgorithm >> population [
 { #category : #accessing }
 SimpleGeneticAlgorithm >> population: aCollection [
 
-	configurator initialPopulationSize: aCollection size.
 	population := aCollection
 ]
 

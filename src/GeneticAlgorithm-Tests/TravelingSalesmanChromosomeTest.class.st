@@ -147,6 +147,7 @@ TravelingSalesmanChromosomeTest >> testRemoveHomeCity [
 
 	self deny: chromosomeCollection first equals: $A.
 	self deny: chromosomeCollection last equals: $A.
+
 	"Original chromosome didn't change"
 	self assert: chromosome chromosome first equals: $A.
 	self assert: chromosome chromosome last equals: $A

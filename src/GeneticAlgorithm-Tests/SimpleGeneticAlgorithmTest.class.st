@@ -19,6 +19,23 @@ SimpleGeneticAlgorithmTest >> setUp [
 ]
 
 { #category : #tests }
+SimpleGeneticAlgorithmTest >> testCreateMapHowManyTimesFitnessAppears [
+
+	| individualOne individualTwo map |
+	individualOne := TravelingSalesmanChromosome chromosome: 'ACBHJDFGIEA'.
+	individualTwo := TravelingSalesmanChromosome chromosome: 'ADEHFICJBGA'.
+
+	geneticAlgorithm population: { individualOne . individualOne copy . individualOne copy . individualTwo . individualTwo copy }.
+	geneticAlgorithm configurator initialPopulationSize: 5.
+
+	map := geneticAlgorithm createMapHowManyTimesFitnessAppears.
+
+	self assert: map size equals: 2.
+	self assert: (map at: individualOne fitness) equals: 3.
+	self assert: (map at: individualTwo fitness) equals: 2.
+]
+
+{ #category : #tests }
 SimpleGeneticAlgorithmTest >> testDoesItConverge [
 
 	| population populationSize convergenceRate |
@@ -26,6 +43,7 @@ SimpleGeneticAlgorithmTest >> testDoesItConverge [
 	convergenceRate := 0.8. "80%"
 	population := OrderedCollection empty.
 
+	geneticAlgorithm configurator initialPopulationSize: 1000.
 	geneticAlgorithm configurator convergenceRate: convergenceRate.
 
 	"Add 80% of equal chromosomes"
@@ -62,12 +80,37 @@ SimpleGeneticAlgorithmTest >> testMutationIntegerProbability [
 ]
 
 { #category : #tests }
+SimpleGeneticAlgorithmTest >> testReducePopulation [
+
+	| population lowDistanceIndividual highDistanceIndividual reducedPopulation |
+	highDistanceIndividual := 'ACBHJDFGIEA'.
+	lowDistanceIndividual := 'ADEHFICJBGA'.
+	population := OrderedCollection empty.
+	8 timesRepeat: [ population add: (TravelingSalesmanChromosome chromosome: lowDistanceIndividual) ].
+	8 timesRepeat: [ population add: (TravelingSalesmanChromosome chromosome: highDistanceIndividual) ].
+
+	geneticAlgorithm configurator initialPopulationSize: 10.
+	geneticAlgorithm population: population.
+	reducedPopulation := geneticAlgorithm reducePopulation.
+
+	self assert: reducedPopulation size equals: 10.
+	self
+		assert: (reducedPopulation count: [ :e | e chromosomeString = lowDistanceIndividual ])
+		equals: 8.
+	self
+		assert: (reducedPopulation count: [ :e | e chromosomeString = highDistanceIndividual ])
+		equals: 2
+]
+
+{ #category : #tests }
 SimpleGeneticAlgorithmTest >> testRouletteWheelSelection [
 
 	| chromosomes population frequencies |
 	chromosomes := #( 'ABCDEFJHIJA' 'AIHJEDBFCGA' 'ABFCJGEHIDA' ).
 	population := chromosomes collect: [ :e | TravelingSalesmanChromosome chromosome: e ].
+	
 	geneticAlgorithm population: population.
+	geneticAlgorithm configurator initialPopulationSize: population size.
 
 	self
 		assert: geneticAlgorithm rouletteWheelSelection size
@@ -84,6 +127,7 @@ SimpleGeneticAlgorithmTest >> testRun [
 	| solution |
 	geneticAlgorithm configurator convergenceRate: 1.0.
 	solution := geneticAlgorithm run.
+
 	self assert: solution fitness equals: 40.
 	self assert: solution totalDistance equals: 20.
 	self assert: geneticAlgorithm generations < 50

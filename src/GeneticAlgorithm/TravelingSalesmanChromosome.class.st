@@ -80,10 +80,9 @@ TravelingSalesmanChromosome >> cross: anotherChromosome [
 	| random l1 l2 inferiorLimit superiorLimit anotherChromosomeCopy chromosomeCopy initialCity child |
 	random := Random new.
 	initialCity := chromosome first.
-	chromosomeCopy := chromosome copy.
-	anotherChromosomeCopy := anotherChromosome chromosome copy.
-	chromosomeCopy := chromosomeCopy removeHomeCity.
-	anotherChromosomeCopy := anotherChromosomeCopy removeHomeCity.
+
+	chromosomeCopy := self removeHomeCity.
+	anotherChromosomeCopy := anotherChromosome removeHomeCity.
 
 	[
 	l1 := random nextInteger: chromosomeCopy size.

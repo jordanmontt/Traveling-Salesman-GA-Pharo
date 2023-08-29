@@ -7,7 +7,8 @@ Class {
 		'generatePopulationButton',
 		'resetButton',
 		'chromosomeVisualizerPresenter',
-		'inspectButton'
+		'inspectButton',
+		'runButton'
 	],
 	#category : #'GeneticAlgorithm-UI'
 }
@@ -23,6 +24,7 @@ SimpleGAPresenter class >> open [
 SimpleGAPresenter >> connectPresenters [
 
 	evolveButton action: [ self evolveAction ].
+	runButton action: [ self evolveUntilTheEndAction ].
 	resetButton action: [ self resetAction ].
 	inspectButton action: [ self inspectAction ].
 	generatePopulationButton action: [ self generateRandomPopulationAction ]
@@ -35,6 +37,7 @@ SimpleGAPresenter >> defaultLayout [
 		  add: (SpBoxLayout newLeftToRight
 				   add: generatePopulationButton;
 				   add: evolveButton;
+				   add: runButton;
 				   add: inspectButton;
 				   add: resetButton;
 				   yourself)
@@ -53,21 +56,24 @@ SimpleGAPresenter >> evolveAction [
 	geneticAlgorithm evolveOneGeneration.
 	geneticAlgorithm doesItConverge & geneticAlgorithm convergedGeneration isNil ifTrue: [
 		geneticAlgorithm convergedGeneration: geneticAlgorithm generations ].
+	self setChromosomeToRoassalPresenter
+]
 
-	chromosomeVisualizerPresenter
-		geneticAlgorithm: geneticAlgorithm;
-		individual: geneticAlgorithm population atRandom;
-		refresh
+{ #category : #action }
+SimpleGAPresenter >> evolveUntilTheEndAction [
+
+	geneticAlgorithm population ifNil: [
+		self openAlertModal.
+		^ self ].
+	geneticAlgorithm run.
+	self setChromosomeToRoassalPresenter
 ]
 
 { #category : #action }
 SimpleGAPresenter >> generateRandomPopulationAction [
 
 	geneticAlgorithm generatePopulation.
-	chromosomeVisualizerPresenter
-		geneticAlgorithm: geneticAlgorithm;
-		individual: geneticAlgorithm population atRandom;
-		refresh
+	self setChromosomeToRoassalPresenter
 ]
 
 { #category : #initialization }
@@ -83,6 +89,10 @@ SimpleGAPresenter >> initializePresenters [
 	chromosomeVisualizerPresenter := self instantiate: ChromosomeVisualizerPresenter.
 	evolveButton := self newButton
 		label: 'Evolve one generation';
+		iconName: #smallDoIt;
+		yourself.
+	runButton := self newButton
+		label: 'Evolve until the end';
 		iconName: #smallDoIt;
 		yourself.
 	inspectButton := self newButton
@@ -129,5 +139,14 @@ SimpleGAPresenter >> resetAction [
 	geneticAlgorithm := SimpleGeneticAlgorithm new.
 	chromosomeVisualizerPresenter
 		individual: nil;
+		refresh
+]
+
+{ #category : #action }
+SimpleGAPresenter >> setChromosomeToRoassalPresenter [
+
+	chromosomeVisualizerPresenter
+		geneticAlgorithm: geneticAlgorithm;
+		individual: geneticAlgorithm population atRandom;
 		refresh
 ]

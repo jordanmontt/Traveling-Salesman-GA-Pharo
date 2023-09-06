@@ -71,7 +71,7 @@ SimpleGeneticAlgorithm >> evolveOneGeneration [
 	"the indidividuals with a better fitness function will be more likely to be chosen"
 	rouletteWheelSelection := self rouletteWheelSelection.
 
-	[ numberOfCrosses = 0 ] whileFalse: [
+	numberOfCrosses timesRepeat: [
 		"Select randomly the two individuals that will cross"
 		father := rouletteWheelSelection at: (random nextInteger: rouletteWheelSelection size).
 		mother := rouletteWheelSelection at: (random nextInteger: rouletteWheelSelection size).
@@ -86,9 +86,7 @@ SimpleGeneticAlgorithm >> evolveOneGeneration [
 
 		"Insert childre into the descendants population"
 		descendants add: childOne.
-		descendants add: childTwo.
-
-		numberOfCrosses := numberOfCrosses - 1 ].
+		descendants add: childTwo ].
 
 	"Join old population (population) with the new population (descendants)"
 	population addAll: descendants.
@@ -188,14 +186,10 @@ SimpleGeneticAlgorithm >> rouletteWheelSelection [
 { #category : #api }
 SimpleGeneticAlgorithm >> run [
 
-	| doesConverge |
 	population := self generatePopulation.
 	generations := 0.
-	doesConverge := false.
 
-	[ doesConverge ] whileFalse: [
-		self evolveOneGeneration.
-		doesConverge := self doesItConverge ].
+	[ self doesItConverge ] whileFalse: [ self evolveOneGeneration ].
 	convergedGeneration := generations.
 	"Return the best chromosome. Population is already sorted"
 	^ population first

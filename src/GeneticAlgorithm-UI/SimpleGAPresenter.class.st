@@ -125,12 +125,10 @@ SimpleGAPresenter >> inspectAction [
 { #category : #action }
 SimpleGAPresenter >> openAlertModal [
 
-	| alertModal |
-	alertModal := SpModalWindowPresenter new.
-	alertModal
-		presenter: 'No population' asPresenter;
-		title: 'Alert';
-		open
+	self application newInform
+		title: 'Alert ';
+		label: 'No population';
+		openDialog
 ]
 
 { #category : #action }

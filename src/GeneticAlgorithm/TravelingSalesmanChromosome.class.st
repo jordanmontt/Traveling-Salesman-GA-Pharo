@@ -123,7 +123,7 @@ TravelingSalesmanChromosome >> initialize [
 
 	super initialize.
 	travelingSalesmanProblem := TravelingSalesmanProblem new.
-	chromosomeSize := travelingSalesmanProblem numberOfCities + 1
+	chromosomeSize := TravelingSalesmanProblem numberOfCities + 1
 ]
 
 { #category : #api }

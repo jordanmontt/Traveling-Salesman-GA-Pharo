@@ -6,8 +6,7 @@ Class {
 	#name : #TravelingSalesmanProblem,
 	#superclass : #Object,
 	#instVars : [
-		'distancesMatrix',
-		'numberOfCities'
+		'distancesMatrix'
 	],
 	#category : #'GeneticAlgorithm-Traveling-Salesman-Problem'
 }
@@ -37,7 +36,6 @@ TravelingSalesmanProblem >> distancesMatrix [
 TravelingSalesmanProblem >> initialize [
 
 	super initialize.
-	numberOfCities := self class numberOfCities.
 	distancesMatrix := {
 		                   { 0. 5. 9. 1. 8. 5. 1. 4. 4. 2 }.
 		                   { 5. 0. 8. 6. 7. 4. 2. 6. 5. 3 }.
@@ -55,10 +53,4 @@ TravelingSalesmanProblem >> initialize [
 TravelingSalesmanProblem >> maximumDistance [
 
 	^ 58
-]
-
-{ #category : #accessing }
-TravelingSalesmanProblem >> numberOfCities [
-
-	^ numberOfCities
 ]

@@ -68,6 +68,5 @@ TravelingSalesmanProblemTest >> testMaximumDistance [
 { #category : #tests }
 TravelingSalesmanProblemTest >> testNumberOfCities [
 
-	self assert: travelingSalesmanProblem numberOfCities equals: 10.
 	self assert: travelingSalesmanProblem class numberOfCities equals: 10
 ]

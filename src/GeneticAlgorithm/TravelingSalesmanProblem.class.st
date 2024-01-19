@@ -1,23 +1,25 @@
 "
-I am a modelization of the traveling salesman problem (https://en.wikipedia.org/wiki/Travelling_salesman_problem).
+I am a model of the traveling salesman problem (https://en.wikipedia.org/wiki/Travelling_salesman_problem).
 I represent the graph as an adjacency matrix.
 "
 Class {
-	#name : #TravelingSalesmanProblem,
-	#superclass : #Object,
+	#name : 'TravelingSalesmanProblem',
+	#superclass : 'Object',
 	#instVars : [
 		'distancesMatrix'
 	],
-	#category : #'GeneticAlgorithm-Traveling-Salesman-Problem'
+	#category : 'GeneticAlgorithm-Traveling-Salesman-Problem',
+	#package : 'GeneticAlgorithm',
+	#tag : 'Traveling-Salesman-Problem'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 TravelingSalesmanProblem class >> numberOfCities [
 
 	^ 10
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 TravelingSalesmanProblem >> distanceBetween: cityA and: cityB [
 
 	| startingValue |
@@ -26,13 +28,13 @@ TravelingSalesmanProblem >> distanceBetween: cityA and: cityB [
 	^ (distancesMatrix at: cityA asciiValue - startingValue) at: cityB asciiValue - startingValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TravelingSalesmanProblem >> distancesMatrix [
 
 	^ distancesMatrix
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TravelingSalesmanProblem >> initialize [
 
 	super initialize.
@@ -49,7 +51,7 @@ TravelingSalesmanProblem >> initialize [
 		                   { 2. 3. 1. 4. 2. 3. 4. 5. 3. 0 } }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TravelingSalesmanProblem >> maximumDistance [
 
 	^ 58

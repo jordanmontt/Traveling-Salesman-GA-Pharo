@@ -6,8 +6,8 @@ For using me, you need to subclass the class Chromosome and implement the missin
 I am implemented to **maximize** the fitness function (look the `reducePopulation` method)
 "
 Class {
-	#name : #SimpleGeneticAlgorithm,
-	#superclass : #Object,
+	#name : 'SimpleGeneticAlgorithm',
+	#superclass : 'Object',
 	#instVars : [
 		'population',
 		'random',
@@ -15,28 +15,30 @@ Class {
 		'configurator',
 		'convergedGeneration'
 	],
-	#category : #'GeneticAlgorithm-Core'
+	#category : 'GeneticAlgorithm-Core',
+	#package : 'GeneticAlgorithm',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SimpleGeneticAlgorithm >> configurator [
 
 	^ configurator
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SimpleGeneticAlgorithm >> convergedGeneration [
 
 	^ convergedGeneration
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SimpleGeneticAlgorithm >> convergedGeneration: anInteger [
 
 	convergedGeneration := anInteger
 ]
 
-{ #category : #'genetic algorithm' }
+{ #category : 'genetic algorithm' }
 SimpleGeneticAlgorithm >> createMapHowManyTimesFitnessAppears [
 	"This is the same as doing `(population collect: #fitness) asBag` and then ask for the
 	values, for example with `aBag valuesAndCounts values`. But this implementation is faster."
@@ -48,7 +50,7 @@ SimpleGeneticAlgorithm >> createMapHowManyTimesFitnessAppears [
 	^ fitnessFrequency
 ]
 
-{ #category : #'genetic algorithm' }
+{ #category : 'genetic algorithm' }
 SimpleGeneticAlgorithm >> doesItConverge [
 
 	| elementsThatMustHaveTheSameFitnessValue fitnessFrequency |
@@ -61,7 +63,7 @@ SimpleGeneticAlgorithm >> doesItConverge [
 	^ false
 ]
 
-{ #category : #'genetic algorithm' }
+{ #category : 'genetic algorithm' }
 SimpleGeneticAlgorithm >> evolveOneGeneration [
 
 	| numberOfCrosses rouletteWheelSelection father mother childOne childTwo descendants |
@@ -94,7 +96,7 @@ SimpleGeneticAlgorithm >> evolveOneGeneration [
 	generations := generations + 1
 ]
 
-{ #category : #'genetic algorithm' }
+{ #category : 'genetic algorithm' }
 SimpleGeneticAlgorithm >> generatePopulation [
 
 	population := (1 to: configurator initialPopulationSize)
@@ -103,13 +105,13 @@ SimpleGeneticAlgorithm >> generatePopulation [
 	^ population
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SimpleGeneticAlgorithm >> generations [
 
 	^ generations
 ]
 
-{ #category : #'genetic algorithm' }
+{ #category : 'genetic algorithm' }
 SimpleGeneticAlgorithm >> hasToMutate [
 
 	| probability randomNumber |
@@ -119,7 +121,7 @@ SimpleGeneticAlgorithm >> hasToMutate [
 	^ randomNumber = 10
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SimpleGeneticAlgorithm >> initialize [
 
 	super initialize.
@@ -129,14 +131,14 @@ SimpleGeneticAlgorithm >> initialize [
 	generations := 0
 ]
 
-{ #category : #'genetic algorithm' }
+{ #category : 'genetic algorithm' }
 SimpleGeneticAlgorithm >> mutate: individual [
 
 	self hasToMutate ifTrue: [ individual mutate ].
 	^ individual
 ]
 
-{ #category : #'genetic algorithm' }
+{ #category : 'genetic algorithm' }
 SimpleGeneticAlgorithm >> mutationIntegerProbability [
 
 	| probability aux |
@@ -149,19 +151,19 @@ SimpleGeneticAlgorithm >> mutationIntegerProbability [
 	^ probability
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SimpleGeneticAlgorithm >> population [
 
 	^ population
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SimpleGeneticAlgorithm >> population: aCollection [
 
 	population := aCollection
 ]
 
-{ #category : #'genetic algorithm' }
+{ #category : 'genetic algorithm' }
 SimpleGeneticAlgorithm >> reducePopulation [
 
 	| reducedPopulation sortedPopulation |
@@ -172,7 +174,7 @@ SimpleGeneticAlgorithm >> reducePopulation [
 	^ population
 ]
 
-{ #category : #'genetic algorithm' }
+{ #category : 'genetic algorithm' }
 SimpleGeneticAlgorithm >> rouletteWheelSelection [
 	"https://en.wikipedia.org/wiki/Fitness_proportionate_selection"
 
@@ -183,7 +185,7 @@ SimpleGeneticAlgorithm >> rouletteWheelSelection [
 	^ flatteredPopulation
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 SimpleGeneticAlgorithm >> run [
 
 	population := self generatePopulation.

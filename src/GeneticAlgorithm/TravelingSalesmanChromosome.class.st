@@ -1,16 +1,18 @@
 Class {
-	#name : #TravelingSalesmanChromosome,
-	#superclass : #Chromosome,
+	#name : 'TravelingSalesmanChromosome',
+	#superclass : 'Chromosome',
 	#instVars : [
 		'chromosome',
 		'chromosomeSize',
 		'totalDistance',
 		'travelingSalesmanProblem'
 	],
-	#category : #'GeneticAlgorithm-Traveling-Salesman-Problem'
+	#category : 'GeneticAlgorithm-Traveling-Salesman-Problem',
+	#package : 'GeneticAlgorithm',
+	#tag : 'Traveling-Salesman-Problem'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TravelingSalesmanChromosome class >> chromosome: anOrderedCollectionOfCharacters [
 
 	^ self new
@@ -18,7 +20,7 @@ TravelingSalesmanChromosome class >> chromosome: anOrderedCollectionOfCharacters
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TravelingSalesmanChromosome class >> generateRandomIndividual [
 
 	| city cities |
@@ -33,7 +35,7 @@ TravelingSalesmanChromosome class >> generateRandomIndividual [
 	^ self chromosome: cities
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 TravelingSalesmanChromosome >> = aTravelingSalesmanChromosome [
 
 	aTravelingSalesmanChromosome class = self class ifFalse: [ ^ false ].
@@ -41,14 +43,14 @@ TravelingSalesmanChromosome >> = aTravelingSalesmanChromosome [
 	^ self chromosomeString = aTravelingSalesmanChromosome chromosomeString
 ]
 
-{ #category : #calculating }
+{ #category : 'calculating' }
 TravelingSalesmanChromosome >> calculateFitness [
 	"We add 2 to not have 0"
 
 	^ travelingSalesmanProblem maximumDistance + 2 - self totalDistance
 ]
 
-{ #category : #calculating }
+{ #category : 'calculating' }
 TravelingSalesmanChromosome >> calculateTotalDistance [
 
 	totalDistance := 0.
@@ -58,31 +60,31 @@ TravelingSalesmanChromosome >> calculateTotalDistance [
 	^ totalDistance
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TravelingSalesmanChromosome >> chromosome [
 
 	^ chromosome
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TravelingSalesmanChromosome >> chromosome: aCollection [
 
 	chromosome := aCollection asOrderedCollection
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TravelingSalesmanChromosome >> chromosomeSize [
 
 	^ chromosomeSize
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TravelingSalesmanChromosome >> chromosomeString [
 
 	^ String streamContents: [ :stream | chromosome do: [ :e | stream nextPut: e ] ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 TravelingSalesmanChromosome >> cross: anotherChromosome [
 
 	| random l1 l2 inferiorLimit superiorLimit anotherChromosomeCopy chromosomeCopy initialCity child |
@@ -112,13 +114,13 @@ TravelingSalesmanChromosome >> cross: anotherChromosome [
 	^ self class chromosome: child
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 TravelingSalesmanChromosome >> hash [
 
 	^ self chromosomeString hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TravelingSalesmanChromosome >> initialize [
 
 	super initialize.
@@ -126,7 +128,7 @@ TravelingSalesmanChromosome >> initialize [
 	chromosomeSize := TravelingSalesmanProblem numberOfCities + 1
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 TravelingSalesmanChromosome >> mutate [
 	"Swap two chromosome elements at a random position"
 
@@ -139,21 +141,21 @@ TravelingSalesmanChromosome >> mutate [
 	chromosome at: positionToMutate + 1 put: temp
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 TravelingSalesmanChromosome >> printOn: aStream [
 
 	aStream << self chromosomeString << ' fitness: ' << self fitness asString
 	<< ' distance: ' << self totalDistance asString
 ]
 
-{ #category : #calculating }
+{ #category : 'calculating' }
 TravelingSalesmanChromosome >> removeHomeCity [
 	"The home city is always at the start and at the end"
 
 	^ chromosome copyFrom: 2 to: chromosome size - 1
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 TravelingSalesmanChromosome >> totalDistance [
 
 	^ totalDistance ifNil: [ totalDistance := self calculateTotalDistance ]
